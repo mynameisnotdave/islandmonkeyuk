@@ -38,7 +38,7 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
 
 <p>
     <label>
-        Upload a file up to @maxFileSize bytes:
+        Maximum file size 50kB:
         <InputFile OnChange="@LoadFiles" />
     </label>
 </p>
@@ -67,7 +67,7 @@ else
 
 @code {
     private List<IBrowserFile> loadedFile = new();
-    public long maxFileSize = 50000;
+    public long maxFileSize = 50001;
     private bool isLoading;
 
     private void LoadFiles(InputFileChangeEventArgs e)
@@ -100,7 +100,7 @@ else
     {
         foreach(var validateFileSize in loadedFile)
         {
-            if(validateFileSize.Size <= maxFileSize)
+            if(validateFileSize.Size < maxFileSize)
             {
                 return true;
             }
