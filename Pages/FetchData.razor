@@ -38,22 +38,8 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
 
 <p>
     <label>
-        Max file size:
-        <input type="number" @bind="maxFileSize" />
-    </label>
-</p>
-
-<p>
-    <label>
-        Max allowed files:
-        <input type="number" @bind="maxAllowedFiles" />
-    </label>
-</p>
-
-<p>
-    <label>
-        Upload up to @maxAllowedFiles of up to @maxFileSize bytes:
-        <InputFile OnChange="@LoadFiles" multiple />
+        Upload a file up to @maxFileSize bytes:
+        <InputFile OnChange="@LoadFiles" />
     </label>
 </p>
 
@@ -64,7 +50,7 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
 else
 {
     <ul>
-        @foreach (var file in loadedFiles)
+        @foreach (var file in loadedFile)
         {
             <li>
                 <ul>
@@ -76,32 +62,49 @@ else
             </li>
         }
     </ul>
+
 }
 
 @code {
-    private List<IBrowserFile> loadedFiles = new();
-    private long maxFileSize = 1024 * 15;
-    private int maxAllowedFiles = 3;
+    private List<IBrowserFile> loadedFile = new();
+    public long maxFileSize = 50000;
     private bool isLoading;
 
     private void LoadFiles(InputFileChangeEventArgs e)
     {
         isLoading = true;
-        loadedFiles.Clear();
-
-        foreach (var file in e.GetMultipleFiles(maxAllowedFiles))
-        {
-            try
+        loadedFile.Clear();
+        var file = e.File;
+        try
             {
-                loadedFiles.Add(file);
+                if(file.ContentType.Equals("text/csv") && IsReasonableSize())
+                {
+                    loadedFile.Add(file);
+                }
+                else if(!file.ContentType.Equals("text/csv") && !IsReasonableSize)
+                {
+                    Logger.LogError("File: {FileName} Error: File uploaded exceeds maximum limit, or is not a CSV file. Aborting.", file.Name);
+                    throw new Exception();
+                }
+
             }
             catch (Exception ex)
             {
                 Logger.LogError("File: {FileName} Error: {Error}",
                     file.Name, ex.Message);
             }
-        }
-
         isLoading = false;
+    }
+
+    private bool IsReasonableSize()
+    {
+        foreach(var validateFileSize in loadedFile)
+        {
+            if(validateFileSize.Size =< maxFileSize)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
