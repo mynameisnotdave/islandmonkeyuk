@@ -81,7 +81,7 @@ else
                 {
                     loadedFile.Add(file);
                 }
-                else if(!file.ContentType.Equals("text/csv") && !IsReasonableSize)
+                else if(!file.ContentType.Equals("text/csv") && !IsReasonableSize())
                 {
                     Logger.LogError("File: {FileName} Error: File uploaded exceeds maximum limit, or is not a CSV file. Aborting.", file.Name);
                     throw new Exception();
@@ -100,7 +100,7 @@ else
     {
         foreach(var validateFileSize in loadedFile)
         {
-            if(validateFileSize.Size =< maxFileSize)
+            if(validateFileSize.Size <= maxFileSize)
             {
                 return true;
             }
