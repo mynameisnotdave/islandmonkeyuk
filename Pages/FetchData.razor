@@ -1,11 +1,21 @@
 ﻿@page "/fetchdata"
 @inject HttpClient Http
 
-<PageTitle>Weather forecast</PageTitle>
+<PageTitle>MFP Data Analysis | islandmonkey.uk</PageTitle>
 
-<h1>Weather forecast</h1>
+<h1>MFP Data Analysis</h1>
 
-<p>This component demonstrates fetching data from the server.</p>
+<p><b>Problem:</b> When trying to analyse nutrition data inside the MyFitnessPal app, you have two options, by individual day, or by calendar week.</p>
+<p><b>Solution: MFP Data Analyser!</b> If you have purchased MyFitnessPal Premium, you can export your nutritional data to a CSV file. Upload your CSV file here for advanced analysis of the data. Features include:</p>
+<ul>
+    <li>Analysis of any nutritional data for any range of dates, weeks, or months</li>
+    <li>Isolate nutritional data as a date range of breakfasts, lunches, dinners, snacks...</li>
+    <li>Understand your nutritional data in more detail.</li>
+</ul>
+
+<em>You need MyFitnessPal Premium to export CSV files.</em>
+
+<button>Upload CSV file here...</button>
 
 @if (forecasts == null)
 {
