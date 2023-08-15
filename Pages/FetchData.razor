@@ -1,5 +1,8 @@
 ﻿@page "/mfp-data-analysis"
 @inject HttpClient Http
+@inject IJSRuntime JSRuntime
+@inject ILogger<FetchData> Logger
+
 @using Microsoft.Extensions.Logging
 
 <PageTitle>MFP Data Analysis | islandmonkey.uk</PageTitle>
@@ -17,9 +20,9 @@
 <em>You need MyFitnessPal Premium to export CSV files.</em>
 
 
-@inject ILogger<FetchData> Logger
 
-<!--From https://github.com/dotnet/blazor-samples/blob/547f2f8609a80525cfc1a2d0d00b5292f9ed8718/7.0/BlazorSample_WebAssembly/Pages/file-uploads/FileUpload1.razor
+<!--Heavily modified but from
+    https://github.com/dotnet/blazor-samples/blob/547f2f8609a80525cfc1a2d0d00b5292f9ed8718/7.0/BlazorSample_WebAssembly/Pages/file-uploads/FileUpload1.razor
     The MIT License (MIT) Copyright (c) Microsoft Corporation
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
@@ -47,64 +50,78 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
 {
     <p>Uploading...</p>
 }
-else
-{
-    <ul>
-        @foreach (var file in loadedFile)
-        {
-            <li>
-                <ul>
-                    <li>Name: @file.Name</li>
-                    <li>Last modified: @file.LastModified.ToString()</li>
-                    <li>Size (bytes): @file.Size</li>
-                    <li>Content type: @file.ContentType</li>
-                </ul>
-            </li>
-        }
-    </ul>
-
-}
 
 @code {
-    private List<IBrowserFile> loadedFile = new();
+
+    private IBrowserFile? loadedFile;
     public long maxFileSize = 50001;
     private bool isLoading;
 
-    private void LoadFiles(InputFileChangeEventArgs e)
+    private async Task LoadFiles(InputFileChangeEventArgs e)
     {
         isLoading = true;
-        loadedFile.Clear();
         var file = e.File;
         try
+        {
+            if(await IsMFPCSV() && file.ContentType.Equals("text/csv") && IsReasonableSize())
             {
-                if(file.ContentType.Equals("text/csv") && IsReasonableSize())
-                {
-                    loadedFile.Add(file);
-                }
-                else if(!file.ContentType.Equals("text/csv") && !IsReasonableSize())
-                {
-                    Logger.LogError("File: {FileName} Error: File uploaded exceeds maximum limit, or is not a CSV file. Aborting.", file.Name);
-                    throw new Exception();
-                }
+                file.OpenReadStream();
+            }
+            else if(!await IsMFPCSV() && !file.ContentType.Equals("text/csv") && !IsReasonableSize())
+            {
+                await JSRuntime.InvokeVoidAsync("alert", "File: {FileName} Error: File uploaded exceeds maximum limit, or is not a CSV file. Aborting.");
+                Logger.LogError("File: {FileName} Error: File uploaded exceeds maximum limit, or is not a CSV file. Aborting.", file.Name);
+                return;
+                throw new Exception();
 
             }
-            catch (Exception ex)
-            {
-                Logger.LogError("File: {FileName} Error: {Error}",
-                    file.Name, ex.Message);
-            }
+
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError("File: {FileName} Error: {Error}",
+                file.Name, ex.Message);
+        }
         isLoading = false;
     }
 
     private bool IsReasonableSize()
     {
-        foreach(var validateFileSize in loadedFile)
+        if(loadedFile.Size < 50001)
         {
-            if(validateFileSize.Size < maxFileSize)
-            {
-                return true;
-            }
+            return true;
+        }
+        else if(loadedFile.Size > 50001)
+        {
+            return false;
         }
         return false;
+    }
+
+    private async Task<bool> IsMFPCSV()
+    {
+        try
+        {
+            using (var stream = loadedFile.OpenReadStream())
+            using (var openedFile = new StreamReader(stream))
+            {
+                string expectedItems = "Date,Meal,Calories,Fat (g),Saturated Fat,Polyunsaturated Fat,Monounsaturated Fat,Trans Fat,Cholesterol,Sodium (mg),Potassium,Carbohydrates (g),Fiber,Sugar,Protein (g),Vitamin A,Vitamin C,Calcium,Iron,Note";
+                string firstLine = await openedFile.ReadLineAsync();
+
+                if (firstLine.Equals(expectedItems))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        catch(Exception ex)
+        {
+            Logger.LogError("File: {FileName} Error: Unable to read {FileName}", loadedFile.Name, loadedFile.Name);
+            return false;
+        }
     }
 }
