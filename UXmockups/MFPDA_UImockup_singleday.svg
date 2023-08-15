@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="1920"
+   height="1080"
+   viewBox="0 0 1920 1080"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   sodipodi:docname="MFPDA_UImockup_singleday.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     showgrid="false"
+     inkscape:zoom="0.6765625"
+     inkscape:cx="898.66051"
+     inkscape:cy="541.70901"
+     inkscape:window-width="1280"
+     inkscape:window-height="1367"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2">
+    <rect
+       x="925.26559"
+       y="344.38799"
+       width="768.59122"
+       height="588.2679"
+       id="rect402" />
+    <rect
+       x="69.468822"
+       y="81.293303"
+       width="178.84527"
+       height="54.688222"
+       id="rect129" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <text
+       xml:space="preserve"
+       id="text127"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect129);fill:#000000;fill-opacity:1;stroke:none"><tspan
+         x="69.46875"
+         y="117.68798"
+         id="tspan462">Select:</tspan></text>
+    <rect
+       style="fill:#e2dbdb;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.51181;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect235"
+       width="215.79677"
+       height="57.644341"
+       x="205.45035"
+       y="76.859123" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       x="242.40186"
+       y="110.8545"
+       id="text239"><tspan
+         sodipodi:role="line"
+         id="tspan237"
+         x="242.40186"
+         y="110.8545">day</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       x="468.54504"
+       y="122.67898"
+       id="text243"><tspan
+         sodipodi:role="line"
+         id="tspan241"
+         x="468.54504"
+         y="122.67898">Which day:</tspan></text>
+    <rect
+       style="fill:#e2dbdb;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.51181;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect245"
+       width="325.17322"
+       height="57.644341"
+       x="699.12238"
+       y="81.293304" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       x="724.24939"
+       y="127.11316"
+       id="text249"><tspan
+         sodipodi:role="line"
+         id="tspan247"
+         x="724.24939"
+         y="127.11316">2023-05-11</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       x="1059.769"
+       y="133.02541"
+       id="text253"><tspan
+         sodipodi:role="line"
+         id="tspan251"
+         x="1059.769"
+         y="133.02541">Meal time: </tspan></text>
+    <rect
+       style="fill:#e2dbdb;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.51181;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect255"
+       width="260.13858"
+       height="76.859123"
+       x="1285.9122"
+       y="76.859123" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       x="1302.1709"
+       y="141.89375"
+       id="text259"><tspan
+         sodipodi:role="line"
+         id="tspan257"
+         x="1302.1709"
+         y="141.89375">All</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       x="88.683601"
+       y="229.0993"
+       id="text263"><tspan
+         sodipodi:role="line"
+         id="tspan261"
+         x="88.683601"
+         y="229.0993">Show: calories fat saturated fat polyunsaturated fat monounsaturated fat trans fat cholestrol </tspan><tspan
+         sodipodi:role="line"
+         x="88.683601"
+         y="279.0993"
+         id="tspan370">sodium potassium carbohydrates fiber sugar protein vitamin a vitamin c calcium iron notes </tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       x="97.551964"
+       y="362.12469"
+       id="text374"><tspan
+         sodipodi:role="line"
+         id="tspan372"
+         x="97.551964"
+         y="362.12469">On 5th May 2023, you consumed:</tspan><tspan
+         sodipodi:role="line"
+         x="97.551964"
+         y="412.12469"
+         id="tspan376">*x calories,</tspan><tspan
+         sodipodi:role="line"
+         x="97.551964"
+         y="462.12469"
+         id="tspan378">*n grams of fat in total,</tspan><tspan
+         sodipodi:role="line"
+         x="97.551964"
+         y="512.12469"
+         id="tspan382">**of which n grams were saturated fats,</tspan><tspan
+         sodipodi:role="line"
+         x="97.551964"
+         y="562.12469"
+         id="tspan384">**n grams were polyunsaturated,</tspan><tspan
+         sodipodi:role="line"
+         x="97.551964"
+         y="612.12469"
+         id="tspan386">**n grams were monounsaturated,</tspan><tspan
+         sodipodi:role="line"
+         x="97.551964"
+         y="662.12469"
+         id="tspan388">**and n grams were trans fats.</tspan><tspan
+         sodipodi:role="line"
+         x="97.551964"
+         y="712.12469"
+         id="tspan390">*You consumed n grams of carbohydrates,</tspan><tspan
+         sodipodi:role="line"
+         x="97.551964"
+         y="762.12469"
+         id="tspan392">**of which n grams was sugar.</tspan><tspan
+         sodipodi:role="line"
+         x="97.551964"
+         y="812.12469"
+         id="tspan394">*You ate n grams of fibre,</tspan><tspan
+         sodipodi:role="line"
+         x="97.551964"
+         y="862.12469"
+         id="tspan396">*n grams of protein,</tspan><tspan
+         sodipodi:role="line"
+         x="97.551964"
+         y="912.12469"
+         id="tspan398">*and n grams of salt (sodium).</tspan><tspan
+         sodipodi:role="line"
+         x="97.551964"
+         y="962.12469"
+         id="tspan380" /></text>
+    <text
+       xml:space="preserve"
+       id="text400"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect402);fill:#000000;fill-opacity:1;stroke:none"><tspan
+         x="925.26562"
+         y="380.78368"
+         id="tspan464">In terms of micronutrients, you </tspan><tspan
+         x="925.26562"
+         y="430.78368"
+         id="tspan466">consumed:
+</tspan><tspan
+         x="925.26562"
+         y="480.78368"
+         id="tspan468">*n mg of vitamin A,
+</tspan><tspan
+         x="925.26562"
+         y="530.78368"
+         id="tspan470">*n mg of vitamin C,
+</tspan><tspan
+         x="925.26562"
+         y="580.78368"
+         id="tspan472">*n mg of calcium,
+</tspan><tspan
+         x="925.26562"
+         y="630.78368"
+         id="tspan474">*n mg of iron.
+</tspan><tspan
+         x="925.26562"
+         y="680.78368"
+         id="tspan476">
+</tspan><tspan
+         x="925.26562"
+         y="730.78368"
+         id="tspan478">
+</tspan><tspan
+         x="925.26562"
+         y="780.78368"
+         id="tspan480">
+</tspan><tspan
+         x="925.26562"
+         y="830.78368"
+         id="tspan482">There were no notes for this day.</tspan></text>
+  </g>
+</svg>
