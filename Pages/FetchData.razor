@@ -52,10 +52,9 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
     <p>Uploading...</p>
 }
 
-<!-- <iframe src="MFPDataViewerFrame.razor" />-->
-
 @code {
 
+    public FetchData() {}
 
     private IBrowserFile loadedFile;
 
@@ -76,7 +75,7 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
             }
             else if(!await IsMFPCSV() && !file.ContentType.Equals("text/csv") && !IsReasonableSize())
             {
-                await JSRuntime.InvokeVoidAsync("alert", "File: {FileName} Error: File uploaded exceeds maximum limit, or is not a CSV file. Aborting.");
+                //await JSRuntime.InvokeVoidAsync("alert", "File: {FileName} Error: File uploaded exceeds maximum limit, or is not a CSV file. Aborting.");
                 Logger.LogError("File: {FileName} Error: File uploaded exceeds maximum limit, or is not a CSV file. Aborting.", file.Name);
                 return;
                 throw new Exception();
@@ -113,8 +112,9 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
             using (var openedFile = new StreamReader(stream))
             {
                 string expectedItems = "Date,Meal,Calories,Fat (g),Saturated Fat,Polyunsaturated Fat,Monounsaturated Fat,Trans Fat,Cholesterol,Sodium (mg),Potassium,Carbohydrates (g),Fiber,Sugar,Protein (g),Vitamin A,Vitamin C,Calcium,Iron,Note";
-                string firstLine = await openedFile.ReadLineAsync();
+                string? firstLine = await openedFile.ReadLineAsync();
 
+                
                 if (firstLine.Equals(expectedItems))
                 {
                     return true;
