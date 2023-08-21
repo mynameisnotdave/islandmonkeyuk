@@ -1,5 +1,7 @@
 @page "/nutrition-data-view"
+@using islandmonkeyuk.Models
 
+@inject Models.NutritionData NutritionInfo
 <div class="nutrition-data-date-selection">
   <label for="date-range">Select date range:</label>
   <select name="date-range" id="date-range">
@@ -27,6 +29,7 @@ else if (selectedDateRange == "date-range")
         <input type="date" id="end-date" @bind="selectedEndDate" />
     </div>
 }
+<!-- This is just showing the months of the year, does not reflect actual data. TODO will make this reflect actual data. -->
 else if (selectedDateRange == "month")
 {
     <div>
@@ -55,28 +58,67 @@ else if (selectedDateRange == "month")
     <p>Show nutrition type:</p>
 
     <input type="checkbox" id="calories"><label for="calories">Calories</label>
-    <input type="checkbox" id="fat"><label for="fat">Fat</label>
-    <input type="checkbox" id="carbohydrates"><label for="carbohydrates">Carbohydrates</label>
-    <input type="checkbox" id="sugar"><label for="sugar">Sugar</label>
-    <input type="checkbox" id="protein"><label for="protein">Protein</label>
-    <input type="checkbox" id="fiber"><label for="fiber">Fibre</label>
+    <input type="checkbox" id="fat"><label for="fat">Fat</label>    
     <input type="checkbox" id="saturated-fat"><label for="saturated-fat">Saturated Fat</label>
     <input type="checkbox" id="polyunsaturated-fat"><label for="polyunsaturated-fat">Polyunsaturated Fat</label>
     <input type="checkbox" id="monounsaturated-fat"><label for="monounsaturated-fat">Monounsaturated Fat</label>
     <input type="checkbox" id="trans-fat"><label for="trans-fat">Trans Fat</label>
+    <input type="checkbox" id="carbohydrates"><label for="carbohydrates">Carbohydrates</label>
+    <input type="checkbox" id="sugar"><label for="sugar">Sugar</label>
+    <input type="checkbox" id="protein"><label for="protein">Protein</label>
+    <input type="checkbox" id="fiber"><label for="fiber">Fibre</label>
+
     <input type="checkbox" id="cholestrol"><label for="cholestrol">Cholestrol</label>
     <input type="checkbox" id="sodium"><label for="sodium">Sodium</label>
     <input type="checkbox" id="potassium"><label for="potassium">Potassium</label>
-    <input type="checkbox" id="vitamin-a"><label for="vitamin-a">Trans Fat</label>
-    <input type="checkbox" id="vitamin-c"><label for="vitamin-c">Cholestrol</label>
-    <input type="checkbox" id="calcium"><label for="calcium">Sodium</label>
-    <input type="checkbox" id="iron"><label for="iron">Potassium</label>
+    <input type="checkbox" id="vitamin-a"><label for="vitamin-a">Vitamin A</label>
+    <input type="checkbox" id="vitamin-c"><label for="vitamin-c">Vitamin C</label>
+    <input type="checkbox" id="calcium"><label for="calcium">Calcium</label>
+    <input type="checkbox" id="iron"><label for="iron">Iron</label>
     <input type="checkbox" id="notes"><label for="notes">Show notes</label>
 </div>
-@code { 
+<div class="nutrition-data-details">
+    On <!-- date logic goes here -->, for MEALTYPE, you consumed:
+    <!-- Conditionally show li values based on checkbox TODO -->
+    <ul>
+        <li>AMOUNT calories,</li>
+        <li>AMOUNTg of fat,
+            <ul>
+                <li>of which AMOUNTg was saturated fat,</li>
+                <li>AMOUNTg was polyunsaturated fat,</li>
+                <li>AMOUNTg was monounsaturated-fat,</li>
+                <li>and AMOUNTg was trans fat.</li>
+            </ul>
+        </li>
+        <li>AMOUNTg of carbohydrates,
+            <ul>
+                <li>of which AMOUNTg was sugar,</li>
+            </ul>
+        </li>
+        <li>AMOUNTg of fibre,</li>
+        <li>AMOUNTg of protein,</li>
+        <li>AMOUNTmg of cholestrol,</li>
+        <li>and AMOUNTmg of salt.</li>
+    </ul>
+    Additionally, you consumed these micronutrients:
+    <ul>
+        <li>AMOUNT of potassium,</li>
+        <li>AMOUNT of vitamin A,</li>
+        <li>AMOUNT of vitamin C,</li>
+        <li>AMOUNT of calcium,</li>
+        <li>and AMOUNT of iron.</li>
+    </ul>
+    <p>There were no notes for this @selectedDateRange.</p>
+</div> 
+@code {
+    private NutritionDataView() {
+        selectedMealType = NutritionInfo.Meal;
+    }
     private string selectedDateRange = "single-day";
-    private DateTime selectedSingleDay = DateTime.Today;
-    private DateTime selectedStartDate = DateTime.Today;
-    private DateTime selectedEndDate = DateTime.Today;
+    // All of the below is very much placeholder as it will be replaced by the info in the CSV.
+    private DateOnly selectedSingleDay = DateOnly.FromDateTime(DateTime.Today);
+    private DateOnly selectedStartDate = DateOnly.FromDateTime(DateTime.Today);
+    private DateOnly selectedEndDate = DateOnly.FromDateTime(DateTime.Today);
     private int selectedMonth = DateTime.Today.Month;
+    private string selectedMealType;
     }
