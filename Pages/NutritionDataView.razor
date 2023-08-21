@@ -10,6 +10,47 @@
   </select>
 </div>
 
+@if (selectedDateRange == "single-day")
+{
+    <div>
+        <label for="single-day">Select a single day:</label>
+        <input type="date" id="single-day" @bind="selectedSingleDay" />
+    </div>
+}
+else if (selectedDateRange == "date-range")
+{
+    <div>
+        <label for="start-date">Start date:</label>
+        <input type="date" id="start-date" @bind="selectedStartDate" />
+
+        <label for="end-date">End date:</label>
+        <input type="date" id="end-date" @bind="selectedEndDate" />
+    </div>
+}
+else if (selectedDateRange == "month")
+{
+    <div>
+        <label for="month">Select a month:</label>
+        <select id="month" @bind="selectedMonth">
+            @for (int i = 1; i <= 12; i++)
+            {
+                <option value="@i">@System.Globalization.DateTimeFormatInfo.CurrentInfo.GetMonthName(i)</option>
+            }
+        </select>
+    </div>
+}
+
+<div class="meal-type-selection">
+    <label for="meal-type">Select meal type: </label>
+    <select name="meal-type">
+        <option value="all">All meals</option>
+        <option value="breakfast">Breakfast</option>
+        <option value="lunch">Lunch</option>
+        <option value="dinner">Dinner</option>
+        <option value="snacks">Snacks</option>
+    </select>
+</div>
+
 <div class="nutrition-data-checkbox-selection">
     <p>Show nutrition type:</p>
 
@@ -32,4 +73,10 @@
     <input type="checkbox" id="iron"><label for="iron">Potassium</label>
     <input type="checkbox" id="notes"><label for="notes">Show notes</label>
 </div>
-@code {}
+@code { 
+    private string selectedDateRange = "single-day";
+    private DateTime selectedSingleDay = DateTime.Today;
+    private DateTime selectedStartDate = DateTime.Today;
+    private DateTime selectedEndDate = DateTime.Today;
+    private int selectedMonth = DateTime.Today.Month;
+    }
