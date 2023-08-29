@@ -4,6 +4,7 @@
 @inject ILogger<FetchData> Logger
 
 @using Microsoft.Extensions.Logging
+@using RestSharp
 
 <PageTitle>MFP Data Analysis | islandmonkey.uk</PageTitle>
 
@@ -42,7 +43,7 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
 <p>
     <label>
         Maximum file size 50kB:
-        <InputFile OnChange="@LoadFiles" accept="text/csv" />
+        <InputFile OnChange="@LoadFile" accept="text/csv" />
     </label>
 </p>
 
@@ -62,8 +63,9 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
 
     public long maxFileSize = 50001;
     private bool isLoading;
+    private Stream? readLoadedFile;
 
-    private async Task LoadFiles(InputFileChangeEventArgs e)
+    private async Task LoadFile(InputFileChangeEventArgs e)
     {
         isLoading = true;
         loadedFile = e.File;
@@ -71,11 +73,12 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
         {
             if(await IsMFPCSV() && loadedFile.ContentType.Equals("text/csv") && IsReasonableSize())
             {
-               loadedFile.OpenReadStream();
+                readLoadedFile = loadedFile.OpenReadStream();
+                // What needs to happen here is this is where I'll probably hook all the Amazon S3 and CsvHelper logic
             }
             else if(!await IsMFPCSV() && !loadedFile.ContentType.Equals("text/csv") && !IsReasonableSize())
             {
-                //await JSRuntime.InvokeVoidAsync("alert", "File: {FileName} Error: File uploaded exceeds maximum limit, or is not a CSV file. Aborting.");
+                await JSRuntime.InvokeVoidAsync("alert", "File: {FileName} Error: File uploaded exceeds maximum limit, or is not a CSV file. Aborting.");
                 Logger.LogError("File: {FileName} Error: File uploaded exceeds maximum limit, or is not a MyFitnessPal CSV file. Aborting.",loadedFile.Name);
                 return;
                 throw new Exception();
@@ -114,7 +117,7 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
                 const string expectedItems = "Date,Meal,Calories,Fat (g),Saturated Fat,Polyunsaturated Fat,Monounsaturated Fat,Trans Fat,Cholesterol,Sodium (mg),Potassium,Carbohydrates (g),Fiber,Sugar,Protein (g),Vitamin A,Vitamin C,Calcium,Iron,Note";
                 string? firstLine = await openedFile.ReadLineAsync();
 
-                
+
                 if (firstLine.Equals(expectedItems))
                 {
                     return true;
@@ -131,4 +134,19 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
             return false;
         }
     }
+/* TBD -- need to find a way that secures down the API key
+    private async Task RunVirusScanner() {
+        var options = new RestClientOptions("https://www.virustotal.com/api/v3/files");
+        var client = new RestClient(options);
+        var request = new RestRequest("");
+        request.AlwaysMultipartFormData = true;
+        request.AddHeader("accept", "application/json");
+        request.AddHeader("x-apikey", APIKEY);
+        request.FormBoundary = "---011000010111000001101001";
+        request.AddFile("file", loadedFile.Name);
+        var response = await client.PostAsync(request);
+
+        Console.WriteLine("{0}", response.Content);
+    }
 }
+*/
