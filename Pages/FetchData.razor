@@ -70,18 +70,16 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
         loadedFile = e.File;
         try
         {
-            if(await IsMFPCSV() && loadedFile.ContentType.Equals("text/csv") && IsReasonableSize())
-            {
-                readLoadedFile = loadedFile.OpenReadStream();
-                // What needs to happen here is this is where I'll probably hook all the Amazon S3 and CsvHelper logic
-            }
-            else if(!await IsMFPCSV() && !loadedFile.ContentType.Equals("text/csv") && !IsReasonableSize())
+            if(!await IsMFPCSV() && !loadedFile.ContentType.Equals("text/csv") && !IsReasonableSize())
             {
                 await JSRuntime.InvokeVoidAsync("alert", "File: {FileName} Error: File uploaded exceeds maximum limit, or is not a CSV file. Aborting.");
-                Logger.LogError("File: {FileName} Error: File uploaded exceeds maximum limit, or is not a MyFitnessPal CSV file. Aborting.",loadedFile.Name);
+                Logger.LogError("File: {FileName} Error: File uploaded exceeds maximum limit, or is not a MyFitnessPal CSV file. Aborting.", loadedFile.Name);
                 return;
                 throw new Exception();
 
+            } 
+            else {
+                readLoadedFile = loadedFile.OpenReadStream();
             }
 
         }
