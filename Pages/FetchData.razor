@@ -42,7 +42,7 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
 <p>
     <label>
         Maximum file size 50kB:
-        <InputFile OnChange="@LoadFiles" />
+        <InputFile OnChange="@LoadFiles" accept="text/csv" />
     </label>
 </p>
 
@@ -66,17 +66,17 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
     private async Task LoadFiles(InputFileChangeEventArgs e)
     {
         isLoading = true;
-        var file = e.File;
+        loadedFile = e.File;
         try
         {
-            if(await IsMFPCSV() && file.ContentType.Equals("text/csv") && IsReasonableSize())
+            if(await IsMFPCSV() && loadedFile.ContentType.Equals("text/csv") && IsReasonableSize())
             {
-                file.OpenReadStream();
+               loadedFile.OpenReadStream();
             }
-            else if(!await IsMFPCSV() && !file.ContentType.Equals("text/csv") && !IsReasonableSize())
+            else if(!await IsMFPCSV() && !loadedFile.ContentType.Equals("text/csv") && !IsReasonableSize())
             {
                 //await JSRuntime.InvokeVoidAsync("alert", "File: {FileName} Error: File uploaded exceeds maximum limit, or is not a CSV file. Aborting.");
-                Logger.LogError("File: {FileName} Error: File uploaded exceeds maximum limit, or is not a CSV file. Aborting.", file.Name);
+                Logger.LogError("File: {FileName} Error: File uploaded exceeds maximum limit, or is not a MyFitnessPal CSV file. Aborting.",loadedFile.Name);
                 return;
                 throw new Exception();
 
@@ -86,7 +86,7 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
         catch (Exception ex)
         {
             Logger.LogError("File: {FileName} Error: {Error}",
-                file.Name, ex.Message);
+               loadedFile.Name, ex.Message);
         }
         isLoading = false;
     }
@@ -111,7 +111,7 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
             using (var stream = loadedFile.OpenReadStream())
             using (var openedFile = new StreamReader(stream))
             {
-                string expectedItems = "Date,Meal,Calories,Fat (g),Saturated Fat,Polyunsaturated Fat,Monounsaturated Fat,Trans Fat,Cholesterol,Sodium (mg),Potassium,Carbohydrates (g),Fiber,Sugar,Protein (g),Vitamin A,Vitamin C,Calcium,Iron,Note";
+                const string expectedItems = "Date,Meal,Calories,Fat (g),Saturated Fat,Polyunsaturated Fat,Monounsaturated Fat,Trans Fat,Cholesterol,Sodium (mg),Potassium,Carbohydrates (g),Fiber,Sugar,Protein (g),Vitamin A,Vitamin C,Calcium,Iron,Note";
                 string? firstLine = await openedFile.ReadLineAsync();
 
                 
