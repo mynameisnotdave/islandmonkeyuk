@@ -42,11 +42,13 @@ else if (selectedDateRange == "month")
         </select>
     </div>
 }
-
+else if (selectedDateRange == "eternity") {
+    //TODO: Implement
+}
 <div class="meal-type-selection">
     <label for="meal-type">Select meal type: </label>
     <select name="meal-type">
-        <option value="all">All meals</option>
+        <option value="all" @bind="allmeals">All meals</option>
         <option value="breakfast">Breakfast</option>
         <option value="lunch">Lunch</option>
         <option value="dinner">Dinner</option>
@@ -78,7 +80,11 @@ else if (selectedDateRange == "month")
     <input type="checkbox" id="notes"><label for="notes">Show notes</label>
 </div>
 <div class="nutrition-data-details">
-    On <!-- date logic goes here -->, for MEALTYPE, you consumed:
+    <!-- @switch (selectedDateRange) {
+        case selectedSingleDay:
+         { <p>On @selectedSingleDay</p>}
+         
+         }-->, for @selectedMealType, you consumed:
     <!-- Conditionally show li values based on checkbox TODO -->
     <ul>
         <li>AMOUNT calories,</li>
@@ -114,6 +120,9 @@ else if (selectedDateRange == "month")
     private NutritionDataView() {
         selectedMealType = NutritionInfo.Meal;
     }
+    /* What needs to be done here is to implement the logic
+       to get the relevant CSV record dependent on 
+       the selected date range and selected meal types. */
     private string selectedDateRange = "single-day";
     // All of the below is very much placeholder as it will be replaced by the info in the CSV.
     private DateOnly selectedSingleDay = DateOnly.FromDateTime(DateTime.Today);
