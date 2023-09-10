@@ -39,15 +39,15 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
 -->
 
 <h3>Upload Files</h3>
-
 <p>
     <label>
         Maximum file size 50kB:
         <InputFile OnChange="LoadFile" accept="text/csv" />
     </label>
 </p>
+
 @if(loadingSuccess) {
-    <!-- <NutritionDataView /> -->
+    <NutritionDataView />
 }
 
 @code {
@@ -55,8 +55,8 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
     public FileUpload(){}
     public long maxFileSize = 50001;
     private bool loadingFailed;
+    public IEnumerable<NutritionModel>? records {get; set;}
     private bool loadingSuccess;
-    private bool isMFPCSV;
 
     private async Task LoadFile(InputFileChangeEventArgs e)
     {
@@ -76,14 +76,12 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
                         string[] expectedHeaderValues = { "Date","Meal","Calories","Fat (g)","Saturated Fat","Polyunsaturated Fat","Monounsaturated Fat","Trans Fat","Cholesterol","Sodium (mg)","Potassium","Carbohydrates (g)","Fiber","Sugar","Protein (g)","Vitamin A","Vitamin C","Calcium","Iron","Note"};
                         using (var csv = new CsvReader(reader, config)) {
                             if (csv.HeaderRecord != null && csv.HeaderRecord.SequenceEqual(expectedHeaderValues)) {
-                                isMFPCSV = true;
                                 loadingSuccess = true;
                             }
                             else {
-                                isMFPCSV = false;
-                                loadingFailed = true;
+                                await JSRuntime.InvokeVoidAsync("alert", "{FileName} is not a MyFitnessPal CSV file, aborting.");
                             }
-                            var records = csv.GetRecords<NutritionModel>();
+                            records = csv.GetRecords<NutritionModel>();
                         }
                     }
                 }

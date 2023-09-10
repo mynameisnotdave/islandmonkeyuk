@@ -1,4 +1,5 @@
 @page "/nutrition-data-view"
+@inject FileUpload fileUpload
 
 <div class="nutrition-data-date-selection">
   <label for="date-range">Select date range:</label>
@@ -121,8 +122,39 @@ else if (selectedDateRange == "eternity") {
     private int selectedMonth = DateTime.Today.Month; // replace with logic pertaining to getting the months available in the csv file...
     private string? selectedMealType;
 
-    public void GetSingleDaySingleMealValues() {
+    private void GetSingleDaySingleMealValues() {
 
-            
     }
+
+    private void GetSingleDayAllMealValues() {
+
+    }
+    
+    private void GetSelectedDateRangeSingleMealValues() {
+
+    }
+
+    private void GetSelectedDateRangeAllMealValues() {
+
+    }
+    
+    private void GetCalendarMonthSingleMealValues() {
+
+    }
+
+    private void GetCalendarMonthAllMealValues() {
+
+    }
+
+    private void GetEternitySingleMealValues() {
+
+    }
+
+    private void GetEternityAllMealValues() {
+
+    }
+
+    private void FindLatestMonth() {
+
+}
 }
