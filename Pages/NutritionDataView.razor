@@ -1,7 +1,5 @@
 @page "/nutrition-data-view"
-@using islandmonkeyuk.Models
 
-@inject Models.NutritionData NutritionInfo
 <div class="nutrition-data-date-selection">
   <label for="date-range">Select date range:</label>
   <select name="date-range" id="date-range">
@@ -80,12 +78,7 @@ else if (selectedDateRange == "eternity") {
     <input type="checkbox" id="notes"><label for="notes">Show notes</label>
 </div>
 <div class="nutrition-data-details">
-    <!-- @switch (selectedDateRange) {
-        case selectedSingleDay:
-         { <p>On @selectedSingleDay</p>}
-         
-         }-->, for @selectedMealType, you consumed:
-    <!-- Conditionally show li values based on checkbox TODO -->
+
     <ul>
         <li>AMOUNT calories,</li>
         <li>AMOUNTg of fat,
@@ -117,17 +110,19 @@ else if (selectedDateRange == "eternity") {
     <p>There were no notes for this @selectedDateRange.</p>
 </div> 
 @code {
-    private NutritionDataView() {
-        selectedMealType = NutritionInfo.Meal;
-    }
     /* What needs to be done here is to implement the logic
        to get the relevant CSV record dependent on 
        the selected date range and selected meal types. */
     private string selectedDateRange = "single-day";
     // All of the below is very much placeholder as it will be replaced by the info in the CSV.
-    private DateOnly selectedSingleDay = DateOnly.FromDateTime(DateTime.Today);
-    private DateOnly selectedStartDate = DateOnly.FromDateTime(DateTime.Today);
-    private DateOnly selectedEndDate = DateOnly.FromDateTime(DateTime.Today);
-    private int selectedMonth = DateTime.Today.Month;
-    private string selectedMealType;
+    private DateOnly selectedSingleDay;
+    private DateOnly selectedStartDate;
+    private DateOnly selectedEndDate;
+    private int selectedMonth = DateTime.Today.Month; // replace with logic pertaining to getting the months available in the csv file...
+    private string? selectedMealType;
+
+    public void GetSingleDaySingleMealValues() {
+
+            
     }
+}

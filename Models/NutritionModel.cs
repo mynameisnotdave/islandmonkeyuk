@@ -1,11 +1,15 @@
-﻿using CsvHelper.Configuration.Attributes;
+﻿using System.Collections.Generic;
+using System.Collections;
+using System.Linq;
+using CsvHelper.Configuration.Attributes;
+using islandmonkeyuk.Pages;
 
 namespace islandmonkeyuk.Models
 {
-    public class NutritionData
+    public class NutritionModel
     {
         [Name("Date")]
-        public DateOnly? Date { get; set; }
+        public DateOnly Date { get; set; }
 
         [Name("Meal")]
         public string Meal { get; set; } = string.Empty;
@@ -63,5 +67,8 @@ namespace islandmonkeyuk.Models
 
         [Name("Note")]
         public string Note { get; set; } = string.Empty;
+        
     }
+
+
 }

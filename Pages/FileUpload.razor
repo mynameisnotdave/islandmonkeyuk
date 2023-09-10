@@ -1,0 +1,107 @@
+@page "/mfp-data-analysis"
+@inject IJSRuntime JSRuntime
+@inject ILogger<FileUpload> Logger  
+
+@using Microsoft.Extensions.Logging
+@using RestSharp
+@using static System.Globalization.CultureInfo
+
+<PageTitle>MFP Data Analysis | islandmonkey.uk</PageTitle>
+
+<h1>MFP Data Analysis</h1>
+
+<p><b>Problem:</b> When trying to analyse nutrition data inside the MyFitnessPal app, you have two options, by individual day, or by calendar week.</p>
+<p><b>Solution: MFP Data Analyser!</b> If you have purchased MyFitnessPal Premium, you can export your nutritional data to a CSV file. Upload your CSV file here for advanced analysis of the data. Features include:</p>
+<ul>
+    <li>Analysis of any nutritional data for any range of dates, weeks, or months</li>
+    <li>Isolate nutritional data as a date range of breakfasts, lunches, dinners, snacks...</li>
+    <li>Understand your nutritional data in more detail.</li>
+</ul>
+
+<em>You need MyFitnessPal Premium to export CSV files. Additionally, by using this tool, you agree to this website's <a href="/privacy-policy">privacy policy</a> and the <a href="/tos">terms of service</a>.</em>
+
+
+
+<!--Heavily modified but from
+    https://github.com/dotnet/blazor-samples/blob/547f2f8609a80525cfc1a2d0d00b5292f9ed8718/7.0/BlazorSample_WebAssembly/Pages/file-uploads/FileUpload1.razor
+    The MIT License (MIT) Copyright (c) Microsoft Corporation
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
+to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+-->
+
+<h3>Upload Files</h3>
+
+<p>
+    <label>
+        Maximum file size 50kB:
+        <InputFile OnChange="LoadFile" accept="text/csv" />
+    </label>
+</p>
+@if(loadingSuccess) {
+    <!-- <NutritionDataView /> -->
+}
+
+@code {
+
+    public FileUpload(){}
+    public long maxFileSize = 50001;
+    private bool loadingFailed;
+    private bool loadingSuccess;
+    private bool isMFPCSV;
+
+    private async Task LoadFile(InputFileChangeEventArgs e)
+    {
+            if(e.File.Size > 50001) {
+                if(!e.File.ContentType.Equals("text/csv")) {
+                        await JSRuntime.InvokeVoidAsync("alert", "File: {FileName} Error: File uploaded exceeds maximum limit, or is not a CSV file. Aborting.");
+                        Logger.LogError("File: {FileName} Error: File uploaded exceeds maximum limit, or is not a CSV file. Aborting.", e.File.Name);
+                        loadingFailed = true;                   
+                }
+            }
+            else {
+                    int randomFileNumber = 1;
+                    await using FileStream fs = new($"csv{randomFileNumber:D6}.csv", FileMode.Create);
+                    await e.File.OpenReadStream().CopyToAsync(fs);
+                    var config = new CsvConfiguration(CultureInfo.InvariantCulture);
+                    using (var reader = new StreamReader(fs)) {
+                        string[] expectedHeaderValues = { "Date","Meal","Calories","Fat (g)","Saturated Fat","Polyunsaturated Fat","Monounsaturated Fat","Trans Fat","Cholesterol","Sodium (mg)","Potassium","Carbohydrates (g)","Fiber","Sugar","Protein (g)","Vitamin A","Vitamin C","Calcium","Iron","Note"};
+                        using (var csv = new CsvReader(reader, config)) {
+                            if (csv.HeaderRecord != null && csv.HeaderRecord.SequenceEqual(expectedHeaderValues)) {
+                                isMFPCSV = true;
+                                loadingSuccess = true;
+                            }
+                            else {
+                                isMFPCSV = false;
+                                loadingFailed = true;
+                            }
+                            var records = csv.GetRecords<NutritionModel>();
+                        }
+                    }
+                }
+    }
+    /* TBD -- need to find a way that secures down the API key
+    private async Task RunVirusScanner() {
+        var options = new RestClientOptions("https://www.virustotal.com/api/v3/files");
+        var client = new RestClient(options);
+        var request = new RestRequest("");
+        request.AlwaysMultipartFormData = true;
+        request.AddHeader("accept", "application/json");
+        request.AddHeader("x-apikey", APIKEY);
+        request.FormBoundary = "---011000010111000001101001";
+        request.AddFile("file", loadedFile.Name);
+        var response = await client.PostAsync(request);
+
+        Console.WriteLine("{0}", response.Content);
+    }*/
+}
+
+
