@@ -16,7 +16,6 @@
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="30.0.1" />
     <PackageReference Include="RestSharp" Version="110.2.0" />
-    <!-- Now unlikely to use this <PackageReference Include="Radzen.Blazor" Version="4.15.5" /> -->
   </ItemGroup>
 
 </Project>

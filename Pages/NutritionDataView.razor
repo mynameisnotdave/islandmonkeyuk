@@ -1,5 +1,4 @@
 @page "/nutrition-data-view"
-@inject FileUpload fileUpload
 
 <div class="nutrition-data-date-selection">
   <label for="date-range">Select date range:</label>
@@ -111,6 +110,7 @@ else if (selectedDateRange == "eternity") {
     <p>There were no notes for this @selectedDateRange.</p>
 </div> 
 @code {
+    FileUpload fileUpload = new();
     /* What needs to be done here is to implement the logic
        to get the relevant CSV record dependent on 
        the selected date range and selected meal types. */
