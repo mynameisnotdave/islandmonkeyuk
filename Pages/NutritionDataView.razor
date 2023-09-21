@@ -1,82 +1,81 @@
 @page "/nutrition-data-view"
-
-<div class="nutrition-data-date-selection">
-  <label for="date-range">Select date range:</label>
-  <select name="date-range" id="date-range">
-    <option value="single-day">Single day</option>
-    <option value="date-range">Date range</option>
-    <option value="month">Month</option>
-    <option value="eternity">The beginning of time</option>
-  </select>
-</div>
-
-@if (selectedDateRange == "single-day")
-{
-    <div>
-        <label for="single-day">Select a single day:</label>
-        <input type="date" id="single-day" @bind="selectedSingleDay" />
+@using System.Linq;
+    <div class="nutrition-data-date-selection">
+    <label for="date-range">Select date range:</label>
+    <select name="date-range" id="date-range">
+        <option value="single-day">Single day</option>
+        <option value="date-range">Date range</option>
+        <option value="month">Month</option>
+        <option value="eternity">The beginning of time</option>
+    </select>
     </div>
-}
-else if (selectedDateRange == "date-range")
-{
-    <div>
-        <label for="start-date">Start date:</label>
-        <input type="date" id="start-date" @bind="selectedStartDate" />
 
-        <label for="end-date">End date:</label>
-        <input type="date" id="end-date" @bind="selectedEndDate" />
-    </div>
-}
-<!-- This is just showing the months of the year, does not reflect actual data. TODO will make this reflect actual data. -->
-else if (selectedDateRange == "month")
-{
-    <div>
-        <label for="month">Select a month:</label>
-        <select id="month" @bind="selectedMonth">
-            @for (int i = 1; i <= 12; i++)
-            {
-                <option value="@i">@System.Globalization.DateTimeFormatInfo.CurrentInfo.GetMonthName(i)</option>
-            }
+    @if (selectedDateRange == "single-day")
+    {
+        <div>
+            <label for="single-day">Select a single day:</label>
+        </div>
+    }
+    else if (selectedDateRange == "date-range")
+    {
+        <div>
+            <label for="start-date">Start date:</label>
+            <input type="date" id="start-date" @bind="selectedStartDate" />
+
+            <label for="end-date">End date:</label>
+            <input type="date" id="end-date" @bind="selectedEndDate" />
+        </div>
+    }
+    <!-- This is just showing the months of the year, does not reflect actual data. TODO will make this reflect actual data. -->
+    else if (selectedDateRange == "month")
+    {
+        <div>
+            <label for="month">Select a month:</label>
+            <select id="month" @bind="selectedMonth">
+                @for (int i = 1; i <= 12; i++)
+                {
+                    <option value="@i">@System.Globalization.DateTimeFormatInfo.CurrentInfo.GetMonthName(i)</option>
+                }
+            </select>
+        </div>
+    }
+    else if (selectedDateRange == "eternity") {
+        //TODO: Implement
+    }
+    <div class="meal-type-selection">
+        <label for="meal-type">Select meal type: </label>
+        <select name="meal-type">
+            <option value="all" @bind="allmeals">All meals</option>
+            <option value="breakfast">Breakfast</option>
+            <option value="lunch">Lunch</option>
+            <option value="dinner">Dinner</option>
+            <option value="snacks">Snacks</option>
         </select>
     </div>
-}
-else if (selectedDateRange == "eternity") {
-    //TODO: Implement
-}
-<div class="meal-type-selection">
-    <label for="meal-type">Select meal type: </label>
-    <select name="meal-type">
-        <option value="all" @bind="allmeals">All meals</option>
-        <option value="breakfast">Breakfast</option>
-        <option value="lunch">Lunch</option>
-        <option value="dinner">Dinner</option>
-        <option value="snacks">Snacks</option>
-    </select>
-</div>
 
-<div class="nutrition-data-checkbox-selection">
-    <p>Show nutrition type:</p>
+    <div class="nutrition-data-checkbox-selection">
+        <p>Show nutrition type:</p>
 
-    <input type="checkbox" id="calories"><label for="calories">Calories</label>
-    <input type="checkbox" id="fat"><label for="fat">Fat</label>    
-    <input type="checkbox" id="saturated-fat"><label for="saturated-fat">Saturated Fat</label>
-    <input type="checkbox" id="polyunsaturated-fat"><label for="polyunsaturated-fat">Polyunsaturated Fat</label>
-    <input type="checkbox" id="monounsaturated-fat"><label for="monounsaturated-fat">Monounsaturated Fat</label>
-    <input type="checkbox" id="trans-fat"><label for="trans-fat">Trans Fat</label>
-    <input type="checkbox" id="carbohydrates"><label for="carbohydrates">Carbohydrates</label>
-    <input type="checkbox" id="sugar"><label for="sugar">Sugar</label>
-    <input type="checkbox" id="protein"><label for="protein">Protein</label>
-    <input type="checkbox" id="fiber"><label for="fiber">Fibre</label>
+        <input type="checkbox" id="calories"><label for="calories">Calories</label>
+        <input type="checkbox" id="fat"><label for="fat">Fat</label>    
+        <input type="checkbox" id="saturated-fat"><label for="saturated-fat">Saturated Fat</label>
+        <input type="checkbox" id="polyunsaturated-fat"><label for="polyunsaturated-fat">Polyunsaturated Fat</label>
+        <input type="checkbox" id="monounsaturated-fat"><label for="monounsaturated-fat">Monounsaturated Fat</label>
+        <input type="checkbox" id="trans-fat"><label for="trans-fat">Trans Fat</label>
+        <input type="checkbox" id="carbohydrates"><label for="carbohydrates">Carbohydrates</label>
+        <input type="checkbox" id="sugar"><label for="sugar">Sugar</label>
+        <input type="checkbox" id="protein"><label for="protein">Protein</label>
+        <input type="checkbox" id="fiber"><label for="fiber">Fibre</label>
 
-    <input type="checkbox" id="cholestrol"><label for="cholestrol">Cholestrol</label>
-    <input type="checkbox" id="sodium"><label for="sodium">Sodium</label>
-    <input type="checkbox" id="potassium"><label for="potassium">Potassium</label>
-    <input type="checkbox" id="vitamin-a"><label for="vitamin-a">Vitamin A</label>
-    <input type="checkbox" id="vitamin-c"><label for="vitamin-c">Vitamin C</label>
-    <input type="checkbox" id="calcium"><label for="calcium">Calcium</label>
-    <input type="checkbox" id="iron"><label for="iron">Iron</label>
-    <input type="checkbox" id="notes"><label for="notes">Show notes</label>
-</div>
+        <input type="checkbox" id="cholestrol"><label for="cholestrol">Cholestrol</label>
+        <input type="checkbox" id="sodium"><label for="sodium">Sodium</label>
+        <input type="checkbox" id="potassium"><label for="potassium">Potassium</label>
+        <input type="checkbox" id="vitamin-a"><label for="vitamin-a">Vitamin A</label>
+        <input type="checkbox" id="vitamin-c"><label for="vitamin-c">Vitamin C</label>
+        <input type="checkbox" id="calcium"><label for="calcium">Calcium</label>
+        <input type="checkbox" id="iron"><label for="iron">Iron</label>
+        <input type="checkbox" id="notes"><label for="notes">Show notes</label>
+    </div>
 <div class="nutrition-data-details">
 
     <ul>
@@ -110,10 +109,13 @@ else if (selectedDateRange == "eternity") {
     <p>There were no notes for this @selectedDateRange.</p>
 </div> 
 @code {
-    FileUpload fileUpload = new();
+    islandmonkeyuk.Pages.FileUpload fileUpload = new();
+    islandmonkeyuk.Models.NutritionModel nutritionModel = new();
     /* What needs to be done here is to implement the logic
        to get the relevant CSV record dependent on 
        the selected date range and selected meal types. */
+    
+    private int selectedItem;
     private string selectedDateRange = "single-day";
     // All of the below is very much placeholder as it will be replaced by the info in the CSV.
     private DateOnly selectedSingleDay;
@@ -122,39 +124,68 @@ else if (selectedDateRange == "eternity") {
     private int selectedMonth = DateTime.Today.Month; // replace with logic pertaining to getting the months available in the csv file...
     private string? selectedMealType;
 
-    private void GetSingleDaySingleMealValues() {
+
+    private void PopulateDateValues() 
+    {
+            var dates = from a in fileUpload.records
+                    select a.Date;
+    }
+
+    private void PopulateMonthValues() 
+    {
+        var dates = from a in fileUpload.records
+                        select a.Date;
+        
+        DateTimeFormatInfo formatInfo = CultureInfo.CurrentCulture.DateTimeFormat;
+        foreach(var date in dates) {
+            List<int> months = dates
+                .Select(a => date.Month).ToList();
+        }
 
     }
 
-    private void GetSingleDayAllMealValues() {
+    private void GetSingleDaySingleMealValues() 
+    {
+
+    }
+
+    private void GetSingleDayAllMealValues() 
+    {
 
     }
     
-    private void GetSelectedDateRangeSingleMealValues() {
+    private void GetSelectedDateRangeSingleMealValues() 
+    {
 
     }
 
-    private void GetSelectedDateRangeAllMealValues() {
+    private void GetSelectedDateRangeAllMealValues() 
+    {
 
     }
     
-    private void GetCalendarMonthSingleMealValues() {
+    private void GetCalendarMonthSingleMealValues() 
+    {
 
     }
 
-    private void GetCalendarMonthAllMealValues() {
+    private void GetCalendarMonthAllMealValues() 
+    {
 
     }
 
-    private void GetEternitySingleMealValues() {
+    private void GetEternitySingleMealValues() 
+    {
 
     }
 
-    private void GetEternityAllMealValues() {
+    private void GetEternityAllMealValues() 
+    {
 
     }
 
-    private void FindLatestMonth() {
+    private void FindLatestMonth() 
+    {
 
-}
+    }
 }

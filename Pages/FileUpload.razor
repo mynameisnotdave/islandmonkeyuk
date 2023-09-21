@@ -40,7 +40,7 @@
     public FileUpload() {}
 
     public long maxFileSize = 50001;
-    public IAsyncEnumerable<NutritionModel> records { get; set; }
+    public IEnumerable<NutritionModel> records { get; set; }
     private bool loadingSuccess;
     string[]? csvHeaders;
 
@@ -75,7 +75,7 @@
             
             else
             {
-                records = csv.GetRecordsAsync<NutritionModel>();
+                records = csv.GetRecords<NutritionModel>().ToList();
                 loadingSuccess = true;
             }
                        
