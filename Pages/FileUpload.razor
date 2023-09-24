@@ -26,13 +26,13 @@
 <p>
     <label>
         Maximum file size 50kB:
-        <InputFile OnChange="LoadFile" accept="text/csv" />
+        <InputFile OnChange="LoadFile" accept="text/csv" /> <!-- FIXME: Will accept MIME type on the basis of file extension, not good. -->
     </label>
 </p>
 
 @if(loadingSuccess) {
     <NutritionDataView />
-} else {
+} else if(loadingFailure) {
     <span class="loading-error-message">Failed to load CSV file. Please make sure that it is a MyFitnessPal CSV file that you are uploading and try again.</span>
 }
 
@@ -42,8 +42,8 @@
     public long maxFileSize = 50001;
     public IEnumerable<NutritionModel> records { get; set; }
     private bool loadingSuccess;
-    string[]? csvHeaders;
-
+    private bool loadingFailure;
+    
     private async Task LoadFile(InputFileChangeEventArgs e)
     {
         int randomFileNumber = 1;
@@ -68,7 +68,7 @@
             {
                 var fileName = fs.Name;
                 File.Delete(fileName);
-                loadingSuccess = false;
+                loadingFailure = true;
                 await JSRuntime.InvokeVoidAsync("alert", $"{e.File.Name} does not have the expected headers, aborting.");
                 Logger.LogError("File: {FileName} Error: File does not have the expected headers, aborting.", e.File.Name);
             }
@@ -84,7 +84,7 @@
         else
         {
             File.Delete(e.File.Name);
-            loadingSuccess = false;
+            loadingFailure = true;
             await JSRuntime.InvokeVoidAsync("alert", $"File: {e.File.Name} Error: File uploaded exceeds maximum limit, or is not a CSV file. Aborting.");
             Logger.LogError("File: {FileName} Error: File uploaded exceeds maximum limit, or is not a CSV file. Aborting.", e.File.Name);
         }
