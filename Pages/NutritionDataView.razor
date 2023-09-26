@@ -1,35 +1,85 @@
 @page "/nutrition-data-view"
 
-
-<div>
-    <label for="date-meal-select">Select date and meal:</label>
-    <select name="date-meal-select" id="date-meal-select" @bind="selectedDateRangeAndMealType">
-        <!-- Single Day -->
-        <option value="single-day-breakfast">Single day, breakfast</option>
-        <option value="single-day-lunch">Single day, lunch</option>
-        <option value="single-day-dinner">Single day, dinner</option>
-        <option value="single-day-snacks">Single day, snacks</option>
-        <option value="single-day-all-meals">@singleDayAllMeals</option>
-
-        <!-- Date Range -->
-        <option value="date-range-breakfast">@dateRangeBreakfast</option>
-        <option value="date-range-lunch">@dateRangeLunch</option>
-        <option value="date-range-dinner">@dateRangeDinner</option>
-        <option value="date-range-snacks">@dateRangeSnacks</option>
-        <option value="date-range-all-meals">@dateRangeAllMeals</option>
-
-        <!-- Month Select -->
-        <option value="month-select-breakfast">@monthSelectBreakfast</option>
-        <option value="month-select-lunch">@monthSelectLunch</option>
-        <option value="month-select-dinner">@monthSelectDinner</option>
-        <option value="month-select-snacks">@monthSelectSnacks</option>
-        <option value="month-select-all-meals">@monthSelectAllMeals</option>
-
-        <!-- Eternity -->
-        <option value="eternity-breakfast">@eternityBreakfast</option>
-        <option value="eternity-lunch">@eternityLunch</option>
-        <option value="eternity-dinner">@eternityDinner</option>
-        <option value="eternity-snacks">@eternitySnacks</option>
-        <option value="eternity-all-meals">@eternityAllMeals</option>
+<div class="date-select">
+    <label for="date-select">Select date range:</label>
+    <select name="date-select" id="date-select" @bind="selectedTimePeriod">
+        <option value="single-day">Single day</option>
+        <option value="date-range">Date range</option>
+        <option value="month">Calendar month</option>
+        <option value="eternity">The beginning of time</option>
     </select>
 </div>
+
+<div class="meal-select">
+    <label for="meal-select">Select meal type:</label>
+    <select name="meal-select" id="meal-select" @bind="selectedMeal">
+        <option value="all-meals" >All meals</option>
+        <option value="breakfast">Breakfast</option>
+        <option value="dinner">Dinner</option>
+        <option value="lunch">Lunch</option>
+        <option value="snacks">Snacks</option>
+    </select>
+</div>
+
+
+
+@if(selectedTimePeriod.Equals("single-day")) 
+{
+    <label for="single-day-select">Select single day:</label>
+    <InputDate id="single-day-select" TValue="DateOnly" @bind-Value="selectedSingleDay" min="@GetEarliestDay()" max="@GetLatestDay()"/>
+} 
+else if (selectedTimePeriod.Equals("date-range"))
+{
+    <label for="start-date-select">Select start date:</label>
+    <InputDate id="start-date-select" TValue="DateOnly" @bind-Value="selectedStartDate" />
+    <label for="end-date-select">Select end date:</label>
+    <InputDate id="end-date-select" TValue="DateOnly" @bind-Value="selectedEndDate"/>
+}
+else if (selectedTimePeriod.Equals("month"))
+{
+    <label for="month-select">Select calendar month:</label>
+    <InputSelect id="month-select" name="month-select" TValue="int" @bind-Value="selectedMonth">
+        <option>@{
+                PopulateMonthValues().ForEach(month => DateTimeFormatInfo.CurrentInfo.GetMonthName(month));
+            }</option>
+    </InputSelect>
+}
+
+
+
+@code{
+    FileUpload fileUpload = new();
+    NutritionModel nutritionModel = new();
+    private string selectedTimePeriod { get; set; } = string.Empty;
+    private DateOnly selectedSingleDay { get; set; }
+    private DateOnly selectedStartDate { get; set; }
+    private DateOnly selectedEndDate { get; set; }
+    private int selectedMonth { get; set; }
+    private string selectedMeal { get; set; } = string.Empty;
+
+    private List<int> PopulateMonthValues()
+    {
+        var dates = from a in fileUpload.records
+            select a.Date;
+        List<int> months = new();
+        foreach (var date in dates)
+        {
+            months = dates
+                .Select(a => date.Month).ToList();
+        }
+        return months;
+    }
+    private string GetEarliestDay()
+    {
+        var records = fileUpload.records;
+        string earliestDay;
+        return earliestDay = records.Min(record => record.Date).ToString();
+    }
+
+    private string GetLatestDay()
+    {
+        string latestDay;
+        return latestDay = fileUpload.records.Max(record => record.Date).ToString();
+    }
+
+}

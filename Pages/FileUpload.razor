@@ -4,6 +4,7 @@
 @using Microsoft.Extensions.Logging
 @using RestSharp
 @using static System.Globalization.CultureInfo
+@using System.Linq;
 
 <PageTitle>MFP Data Analysis | islandmonkey.uk</PageTitle>
 
@@ -37,16 +38,21 @@
 }
 
 @code {
-    public FileUpload() {}
+
+    public FileUpload()
+    {
+        this.records = records;
+    }
 
     public long maxFileSize = 50001;
-    public IEnumerable<NutritionModel> records { get; set; }
+
+    public List<NutritionModel>? records { get; set; }
     private bool loadingSuccess;
     private bool loadingFailure;
     
     private async Task LoadFile(InputFileChangeEventArgs e)
     {
-        int randomFileNumber = 1;
+        var randomFileNumber = 1;
 
         if (e.File.Size < maxFileSize && e.File.ContentType.Equals("text/csv"))
         {
@@ -61,7 +67,7 @@
 
             using var reader = new StreamReader(fs);
             using var csv = new CsvReader(reader, config);
-            string expectedHeaderValues = "Date,Meal,Calories,Fat (g),Saturated Fat,Polyunsaturated Fat,Monounsaturated Fat,Trans Fat,Cholesterol,Sodium (mg),Potassium,Carbohydrates (g),Fiber,Sugar,Protein (g),Vitamin A,Vitamin C,Calcium,Iron,Note";
+            const string expectedHeaderValues = "Date,Meal,Calories,Fat (g),Saturated Fat,Polyunsaturated Fat,Monounsaturated Fat,Trans Fat,Cholesterol,Sodium (mg),Potassium,Carbohydrates (g),Fiber,Sugar,Protein (g),Vitamin A,Vitamin C,Calcium,Iron,Note";
             await csv.ReadAsync();
             csv.ReadHeader();
             if (!csv.HeaderRecord.SequenceEqual(expectedHeaderValues.Split(",")))
@@ -76,21 +82,23 @@
             else
             {
                 // Don't like having this as a list, but seems like we have to make Linq happy
-                records = csv.GetRecords<NutritionModel>().ToList();
+                records = records.AddRange(csv.GetRecordsAsync<NutritionModel>().ToListAsync());
+                
                 loadingSuccess = true;
             }
                        
         }
         else
-        {
-            File.Delete(e.File.Name);
-            loadingFailure = true;
+        {     
+            loadingFailure = true;            
             await JSRuntime.InvokeVoidAsync("alert", $"File: {e.File.Name} Error: File uploaded exceeds maximum limit, or is not a CSV file. Aborting.");
             Logger.LogError("File: {FileName} Error: File uploaded exceeds maximum limit, or is not a CSV file. Aborting.", e.File.Name);
+            File.Delete(e.File.Name);
+
         }
     }
 
-    /* TBD -- need to find a way that secures down the API key
+
     private async Task RunVirusScanner()
     {
         var options = new RestClientOptions("https://www.virustotal.com/api/v3/files");
@@ -100,8 +108,8 @@
         request.AddHeader("accept", "application/json");
         request.AddHeader("x-apikey", APIKEY);
         request.FormBoundary = "---011000010111000001101001";
-        request.AddFile("file", loadedFile.Name);
+        request.AddFile("file", .Name);
         var response = await client.PostAsync(request);
         Console.WriteLine("{0}", response.Content);
-    }*/
+    }
 }
