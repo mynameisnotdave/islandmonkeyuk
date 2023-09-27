@@ -1,7 +1,6 @@
-﻿namespace islandmonkeyuk.Misc
+﻿namespace islandmonkeyuk.Misc;
+
+public class VirusScanSettings
 {
-    public class VirusScanSettings
-    {
-        public string VirusScanApiKey { get; set; }
-    }
+    public string VirusScanApiKey { get; set; }
 }

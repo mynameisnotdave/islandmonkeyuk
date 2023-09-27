@@ -13,7 +13,7 @@
 <div class="meal-select">
     <label for="meal-select">Select meal type:</label>
     <select name="meal-select" id="meal-select" @bind="selectedMeal">
-        <option value="all-meals" >All meals</option>
+        <option value="all-meals">All meals</option>
         <option value="breakfast">Breakfast</option>
         <option value="dinner">Dinner</option>
         <option value="lunch">Lunch</option>
@@ -22,16 +22,15 @@
 </div>
 
 
-
-@if(selectedTimePeriod.Equals("single-day")) 
+@if (selectedTimePeriod.Equals("single-day"))
 {
     <label for="single-day-select">Select single day:</label>
     <InputDate id="single-day-select" TValue="DateOnly" @bind-Value="selectedSingleDay" min="@GetEarliestDay()" max="@GetLatestDay()"/>
-} 
+}
 else if (selectedTimePeriod.Equals("date-range"))
 {
     <label for="start-date-select">Select start date:</label>
-    <InputDate id="start-date-select" TValue="DateOnly" @bind-Value="selectedStartDate" />
+    <InputDate id="start-date-select" TValue="DateOnly" @bind-Value="selectedStartDate"/>
     <label for="end-date-select">Select end date:</label>
     <InputDate id="end-date-select" TValue="DateOnly" @bind-Value="selectedEndDate"/>
 }
@@ -39,9 +38,11 @@ else if (selectedTimePeriod.Equals("month"))
 {
     <label for="month-select">Select calendar month:</label>
     <InputSelect id="month-select" name="month-select" TValue="int" @bind-Value="selectedMonth">
-        <option>@{
+        <option>
+            @{
                 PopulateMonthValues().ForEach(month => DateTimeFormatInfo.CurrentInfo.GetMonthName(month));
-            }</option>
+            }
+        </option>
     </InputSelect>
 }
 
@@ -69,6 +70,7 @@ else if (selectedTimePeriod.Equals("month"))
         }
         return months;
     }
+
     private string GetEarliestDay()
     {
         var records = fileUpload.records;
