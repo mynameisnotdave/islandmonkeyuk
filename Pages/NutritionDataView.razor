@@ -38,50 +38,9 @@ else if (selectedTimePeriod.Equals("month"))
 {
     <label for="month-select">Select calendar month:</label>
     <InputSelect id="month-select" name="month-select" TValue="int" @bind-Value="selectedMonth">
-        <option>
-            @{
-                PopulateMonthValues().ForEach(month => DateTimeFormatInfo.CurrentInfo.GetMonthName(month));
-            }
-        </option>
-    </InputSelect>
-}
-
-
-
-@code{
-    FileUpload fileUpload = new();
-    NutritionModel nutritionModel = new();
-    private string selectedTimePeriod { get; set; } = string.Empty;
-    private DateOnly selectedSingleDay { get; set; }
-    private DateOnly selectedStartDate { get; set; }
-    private DateOnly selectedEndDate { get; set; }
-    private int selectedMonth { get; set; }
-    private string selectedMeal { get; set; } = string.Empty;
-
-    private List<int> PopulateMonthValues()
-    {
-        var dates = from a in fileUpload.records
-            select a.Date;
-        List<int> months = new();
-        foreach (var date in dates)
+        @foreach (var month in PopulateMonthValues())
         {
-            months = dates
-                .Select(a => date.Month).ToList();
+            <option value="@month">@DateTimeFormatInfo.CurrentInfo.GetMonthName(month)</option>
         }
-        return months;
-    }
-
-    private string GetEarliestDay()
-    {
-        var records = fileUpload.records;
-        string earliestDay;
-        return earliestDay = records.Min(record => record.Date).ToString();
-    }
-
-    private string GetLatestDay()
-    {
-        string latestDay;
-        return latestDay = fileUpload.records.Max(record => record.Date).ToString();
-    }
-
+    </InputSelect>
 }

@@ -1,8 +1,6 @@
 @page "/mfp-data-analysis"
 @inject IJSRuntime JSRuntime
 @inject ILogger<FileUpload> Logger 
-@using static System.Globalization.CultureInfo
-@using RestSharp
 
 <PageTitle>MFP Data Analysis | islandmonkey.uk</PageTitle>
 
@@ -25,7 +23,7 @@
 <p>
     <label>
         Maximum file size 50kB:
-        <InputFile OnChange="LoadFile" accept="text/csv"/> <!-- FIXME: Will accept MIME type on the basis of file extension, not good. -->
+        <InputFile OnChange="@LoadFile" accept="text/csv"/> <!-- FIXME: Will accept MIME type on the basis of file extension, not good. -->
     </label>
 </p>
 
@@ -36,81 +34,4 @@
 else if (loadingFailure)
 {
     <span class="loading-error-message">Failed to load CSV file. Please make sure that it is a MyFitnessPal CSV file that you are uploading and try again.</span>
-}
-
-@code {
-
-    public FileUpload()
-    {
-        records = records;
-    }
-
-    public long maxFileSize = 50001;
-
-    public List<NutritionModel>? records { get; set; }
-    private bool loadingSuccess;
-    private bool loadingFailure;
-
-    private async Task LoadFile(InputFileChangeEventArgs e)
-    {
-        var randomFileNumber = 1;
-
-        if (e.File.Size < maxFileSize && e.File.ContentType.Equals("text/csv"))
-        {
-            await using FileStream fs = new($"csv{randomFileNumber:D6}.csv", FileMode.Create);
-            await e.File.OpenReadStream().CopyToAsync(fs);
-            fs.Position = 0;
-
-            var config = new CsvConfiguration(InvariantCulture)
-            {
-                Delimiter = ","
-            };
-
-            using var reader = new StreamReader(fs);
-            using var csv = new CsvReader(reader, config);
-            const string expectedHeaderValues = "Date,Meal,Calories,Fat (g),Saturated Fat,Polyunsaturated Fat,Monounsaturated Fat,Trans Fat,Cholesterol,Sodium (mg),Potassium,Carbohydrates (g),Fiber,Sugar,Protein (g),Vitamin A,Vitamin C,Calcium,Iron,Note";
-            await csv.ReadAsync();
-            csv.ReadHeader();
-            if (!csv.HeaderRecord.SequenceEqual(expectedHeaderValues.Split(",")))
-            {
-                var fileName = fs.Name;
-                File.Delete(fileName);
-                loadingFailure = true;
-                await JSRuntime.InvokeVoidAsync("alert", $"{e.File.Name} does not have the expected headers, aborting.");
-                Logger.LogError("File: {FileName} Error: File does not have the expected headers, aborting.", e.File.Name);
-            }
-
-            else
-            {
-    // Don't like having this as a list, but seems like we have to make Linq happy
-                records = records.AddRange(csv.GetRecordsAsync<NutritionModel>().ToListAsync());
-
-                loadingSuccess = true;
-            }
-        }
-        else
-        {
-            loadingFailure = true;
-            await JSRuntime.InvokeVoidAsync("alert", $"File: {e.File.Name} Error: File uploaded exceeds maximum limit, or is not a CSV file. Aborting.");
-            Logger.LogError("File: {FileName} Error: File uploaded exceeds maximum limit, or is not a CSV file. Aborting.", e.File.Name);
-            File.Delete(e.File.Name);
-        }
-    }
-
-
-    private async Task RunVirusScanner()
-    {
-        var options = new RestClientOptions("https://www.virustotal.com/api/v3/files");
-        var client = new RestClient(options);
-        var request = new RestRequest("");
-        request.AlwaysMultipartFormData = true;
-        request.AddHeader("accept", "application/json");
-        request.AddHeader("x-apikey", APIKEY);
-        request.FormBoundary = "---011000010111000001101001";
-        request.AddFile("file", .Name)
-        ;
-        var response = await client.PostAsync(request);
-        Console.WriteLine("{0}", response.Content);
-    }
-
 }

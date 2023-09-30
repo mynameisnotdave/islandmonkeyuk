@@ -7,7 +7,7 @@ namespace islandmonkeyuk.Misc;
 public class VirusScan
 {
     private readonly IConfiguration _config;
-    private VirusScanAnalysisResponse.Root deserializedAnalysisResponse;
+    //private VirusScanAnalysisResponse.Root deserializedAnalysisResponse;
     private VirusScanUploadResponse.Root deserializedUploadResponse;
     private string hash = string.Empty;
     private string virusScanApiKey = string.Empty;

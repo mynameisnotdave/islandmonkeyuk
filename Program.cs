@@ -1,5 +1,4 @@
 var builder = WebApplication.CreateBuilder(args);
-var virusScanApiKey = builder.Configuration["VirusScan:ApiKey"];
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -20,9 +19,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
-app.MapGet("/", () => virusScanApiKey);
+
 
 app.Run();
