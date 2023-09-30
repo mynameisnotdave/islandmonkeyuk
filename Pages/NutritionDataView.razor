@@ -1,8 +1,6 @@
-@page "/nutrition-data-view"
-
 <div class="date-select">
     <label for="date-select">Select date range:</label>
-    <select name="date-select" id="date-select" @bind="selectedTimePeriod">
+    <select name="date-select" id="date-select" @bind="SelectedTimePeriod">
         <option value="single-day">Single day</option>
         <option value="date-range">Date range</option>
         <option value="month">Calendar month</option>
@@ -12,7 +10,7 @@
 
 <div class="meal-select">
     <label for="meal-select">Select meal type:</label>
-    <select name="meal-select" id="meal-select" @bind="selectedMeal">
+    <select name="meal-select" id="meal-select" @bind="SelectedMeal">
         <option value="all-meals">All meals</option>
         <option value="breakfast">Breakfast</option>
         <option value="dinner">Dinner</option>
@@ -22,25 +20,25 @@
 </div>
 
 
-@if (selectedTimePeriod.Equals("single-day"))
+@switch (SelectedTimePeriod)
 {
-    <label for="single-day-select">Select single day:</label>
-    <InputDate id="single-day-select" TValue="DateOnly" @bind-Value="selectedSingleDay" min="@GetEarliestDay()" max="@GetLatestDay()"/>
-}
-else if (selectedTimePeriod.Equals("date-range"))
-{
-    <label for="start-date-select">Select start date:</label>
-    <InputDate id="start-date-select" TValue="DateOnly" @bind-Value="selectedStartDate"/>
-    <label for="end-date-select">Select end date:</label>
-    <InputDate id="end-date-select" TValue="DateOnly" @bind-Value="selectedEndDate"/>
-}
-else if (selectedTimePeriod.Equals("month"))
-{
-    <label for="month-select">Select calendar month:</label>
-    <InputSelect id="month-select" name="month-select" TValue="int" @bind-Value="selectedMonth">
-        @foreach (var month in PopulateMonthValues())
-        {
-            <option value="@month">@DateTimeFormatInfo.CurrentInfo.GetMonthName(month)</option>
-        }
-    </InputSelect>
+    case "single-day":
+        <label for="single-day-select">Select single day:</label>
+        <InputDate id="single-day-select" TValue="@default(DateOnly)" @bind-Value="SelectedSingleDay" min="@GetEarliestDay()" max="@GetLatestDay()"/>
+        break;
+    case "date-range":
+        <label for="start-date-select">Select start date:</label>
+        <InputDate id="start-date-select" TValue="@default(DateOnly)" @bind-Value="SelectedStartDate"/>
+        <label for="end-date-select">Select end date:</label>
+        <InputDate id="end-date-select" TValue="@default(DateOnly)" @bind-Value="SelectedEndDate"/>
+        break;
+    case "month":
+        <label for="month-select">Select calendar month:</label>
+        <InputSelect id="month-select" name="month-select" TValue="@default(int)" @bind-Value="SelectedMonth">
+            @foreach (var month in PopulateMonthValues())
+            {
+                <option value="@month">@DateTimeFormatInfo.CurrentInfo.GetMonthName(month)</option>
+            }
+        </InputSelect>
+        break;
 }

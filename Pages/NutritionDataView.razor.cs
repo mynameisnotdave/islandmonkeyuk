@@ -5,12 +5,12 @@ using Models;
 public partial class NutritionDataView {
     private FileUpload fileUpload = new();
     private NutritionModel nutritionModel = new();
-    private string selectedTimePeriod { get; set; } = string.Empty;
-    private DateOnly selectedSingleDay { get; set; }
-    private DateOnly selectedStartDate { get; set; }
-    private DateOnly selectedEndDate { get; set; }
-    private int selectedMonth { get; set; }
-    private string selectedMeal { get; set; } = string.Empty;
+    public string SelectedTimePeriod { get; set; } = string.Empty;
+    public DateOnly SelectedSingleDay { get; set; }
+    public DateOnly SelectedStartDate { get; set; }
+    public DateOnly SelectedEndDate { get; set; }
+    public int SelectedMonth { get; set; }
+    public string SelectedMeal { get; set; } = string.Empty;
 
     private List<int> PopulateMonthValues()
     {
@@ -21,17 +21,33 @@ public partial class NutritionDataView {
         return months.ToList();
     }
 
-    private string GetEarliestDay()
+    private DateOnly GetEarliestDay()
     {
         var records = FileUpload.records;
-        string earliestDay;
-        return earliestDay = records.Min(record => record.Date).ToString();
+        return records.Min(record => record.Date);
     }
 
-    private string GetLatestDay()
+    private DateOnly GetLatestDay()
     {
-        string latestDay;
-        return latestDay = FileUpload.records.Max(record => record.Date).ToString();
+        return FileUpload.records.Max(record => record.Date);
+    }
+
+    public bool ContainsNotes()
+    {
+        var notes = from c in FileUpload.records
+            select c.Note;
+        foreach (var note in notes)
+        {
+            if (note.Contains(""))
+            {
+                return false;
+            }
+            else if (note.Length > 0)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

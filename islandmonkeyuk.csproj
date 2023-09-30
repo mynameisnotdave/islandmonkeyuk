@@ -12,6 +12,7 @@
         <Content Remove="UXmockups\**"/>
         <EmbeddedResource Remove="UXmockups\**"/>
         <None Remove="UXmockups\**"/>
+        <None Remove="csv000001.csv" />
     </ItemGroup>
 
     <ItemGroup>
