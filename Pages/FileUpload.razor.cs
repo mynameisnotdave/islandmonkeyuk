@@ -7,7 +7,7 @@ using Microsoft.JSInterop;
 using Models;
 
 public partial class FileUpload {
-       public FileUpload()
+    public FileUpload()
     {
     }
 

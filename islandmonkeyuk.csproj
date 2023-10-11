@@ -23,7 +23,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="islandmonkeyuk.Tests\islandmonkeyuk.Tests.csproj" />
+      <_ContentIncludedByDefault Remove="islandmonkeyuk.Tests\obj\islandmonkeyuk.Tests.csproj.nuget.dgspec.json" />
+      <_ContentIncludedByDefault Remove="islandmonkeyuk.Tests\obj\project.assets.json" />
+      <_ContentIncludedByDefault Remove="islandmonkeyuk.Tests\obj\project.packagespec.json" />
     </ItemGroup>
 
 </Project>

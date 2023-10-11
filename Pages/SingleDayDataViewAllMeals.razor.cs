@@ -4,77 +4,139 @@ using System.Linq;
 
 public partial class SingleDayDataViewAllMeals : IGenerateNutritionalValues 
 {
-    private NutritionDataView dataView = new();
-    // So if we did have a single component for all, then we would have to find a way to cleanly switch between different meal types and different date types and display the content based
-    // upon that. That will be tough.
-
-
-    public decimal? GetCalorieValues()
+    private readonly NutritionDataView dataView = new();
+        public decimal? GetCalorieValues()
     {
-        throw new NotImplementedException();
+        var calories = from c in FileUpload.records
+            where c.Date == dataView.SelectedSingleDay
+            select c.Calories;
+        return calories.Sum();
     }
     public decimal? GetFatValues()
     {
-        throw new NotImplementedException();
+        var fats = from c in FileUpload.records
+            where c.Date == dataView.SelectedSingleDay
+            select c.Fat;
+        return fats.Sum();
     }
+
     public decimal? GetSatFatValues()
     {
-        throw new NotImplementedException();
+        var satFats = from c in FileUpload.records
+            where c.Date == dataView.SelectedSingleDay
+            select c.SaturatedFat;
+        return satFats.Sum();
     }
+
     public decimal? GetMonoUnsatFatValues()
     {
-        throw new NotImplementedException();
+        var monoUnsatFats = from c in FileUpload.records
+            where c.Date == dataView.SelectedSingleDay
+            select c.MonounsaturatedFat;
+        return monoUnsatFats.Sum();
     }
+
     public decimal? GetPolyFatValues()
     {
-        throw new NotImplementedException();
+        var polyFats = from c in FileUpload.records
+            where c.Date == dataView.SelectedSingleDay
+            select c.PolyunsaturatedFat;
+        return polyFats.Sum();
     }
+
     public decimal? GetTransFatValues()
     {
-        throw new NotImplementedException();
+        var transFats = from c in FileUpload.records
+            where c.Date == dataView.SelectedSingleDay
+            select c.TransFat;
+        return transFats.Sum();
     }
+
     public decimal? GetCarbValues()
     {
-        throw new NotImplementedException();
+        var carbs = from c in FileUpload.records
+            where c.Date == dataView.SelectedSingleDay
+            select c.Carbohydrates;
+        return carbs.Sum();
     }
+
     public decimal? GetSugarValues()
     {
-        throw new NotImplementedException();
+        var sugars = from c in FileUpload.records
+            where c.Date == dataView.SelectedSingleDay
+            select c.Sugar;
+        return sugars.Sum();
     }
+
     public decimal? GetFibreValues()
     {
-        throw new NotImplementedException();
+        var fibre = from c in FileUpload.records
+            where c.Date == dataView.SelectedSingleDay
+            select c.Fiber;
+        return fibre.Sum();
     }
+
     public decimal? GetProteinValues()
     {
-        throw new NotImplementedException();
+        var protein = from c in FileUpload.records
+            where c.Date == dataView.SelectedSingleDay
+            select c.Protein;
+        return protein.Sum();
     }
+
     public decimal? GetCholesterolValues()
     {
-        throw new NotImplementedException();
+        var cholesterol = from c in FileUpload.records
+            where c.Date == dataView.SelectedSingleDay
+            select c.Cholesterol;
+        return cholesterol.Sum();
     }
+
     public decimal? GetSaltValues()
     {
-        throw new NotImplementedException();
+        var salts = from c in FileUpload.records
+            where c.Date == dataView.SelectedSingleDay
+            select c.Sodium;
+        return salts.Sum();
     }
+
     public decimal? GetPotassiumValues()
     {
-        throw new NotImplementedException();
+        var potassium = from c in FileUpload.records
+            where c.Date == dataView.SelectedSingleDay
+            select c.Potassium;
+        return potassium.Sum();
     }
+
     public decimal? GetVitA_Values()
     {
-        throw new NotImplementedException();
+        var vitAs = from c in FileUpload.records
+            where c.Date == dataView.SelectedSingleDay
+            select c.VitaminA;
+        return vitAs.Sum();
     }
+
     public decimal? GetVitC_Values()
     {
-        throw new NotImplementedException();
+        var vitC = from c in FileUpload.records
+            where c.Date == dataView.SelectedSingleDay
+            select c.VitaminC;
+        return vitC.Sum();
     }
+
     public decimal? GetCalciumValues()
     {
-        throw new NotImplementedException();
+        var calcium = from c in FileUpload.records
+            where c.Date == dataView.SelectedSingleDay
+            select c.Calcium;
+        return calcium.Sum();
     }
+
     public decimal? GetIronValues()
     {
-        throw new NotImplementedException();
+        var iron = from c in FileUpload.records
+            where c.Date == dataView.SelectedSingleDay
+            select c.Iron;
+        return iron.Sum();
     }
 }

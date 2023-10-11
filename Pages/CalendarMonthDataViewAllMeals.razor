@@ -1,33 +1,33 @@
 <div class="nutrition-data-details">
-    Between @dataView.SelectedStartDate and @dataView.SelectedEndDate, for @dataView.SelectedMeal, you consumed:
+    In @DateTimeFormatInfo.CurrentInfo.GetMonthName(dataView.SelectedMonth), for @dataView.SelectedMeal.ToLower(), you consumed:
     <!-- Conditionally show li values based on checkbox TODO -->
     <ul>
-        <li> calories,</li>
-        <li>AMOUNTg of fat,
+        <li>@GetCalorieValues() calories,</li>
+        <li>@GetFatValues()g of fat,
             <ul>
-                <li>of which AMOUNTg was saturated fat,</li>
-                <li>AMOUNTg was polyunsaturated fat,</li>
-                <li>AMOUNTg was monounsaturated-fat,</li>
-                <li>and AMOUNTg was trans fat.</li>
+                <li>of which @GetSatFatValues()g was saturated fat,</li>
+                <li>@GetPolyFatValues()g was polyunsaturated fat,</li>
+                <li>@GetMonoUnsatFatValues()g was monounsaturated-fat,</li>
+                <li>and @GetTransFatValues()g was trans fat.</li>
             </ul>
         </li>
-        <li>AMOUNTg of carbohydrates,
+        <li>@GetCarbValues()g of carbohydrates,
             <ul>
-                <li>of which AMOUNTg was sugar,</li>
+                <li>of which @GetSugarValues()g was sugar,</li>
             </ul>
         </li>
-        <li>AMOUNTg of fibre,</li>
-        <li>AMOUNTg of protein,</li>
-        <li>AMOUNTmg of cholestrol,</li>
-        <li>and AMOUNTmg of salt.</li>
+        <li>@GetFibreValues()g of fibre,</li>
+        <li>@GetProteinValues()g of protein,</li>
+        <li>@GetCholesterolValues()mg of cholesterol,</li>
+        <li>and @GetSaltValues()mg of salt.</li>
     </ul>
     Additionally, you consumed these micronutrients:
     <ul>
-        <li>AMOUNT of potassium,</li>
-        <li>AMOUNT of vitamin A,</li>
-        <li>AMOUNT of vitamin C,</li>
-        <li>AMOUNT of calcium,</li>
-        <li>and AMOUNT of iron.</li>
+        <li>@GetPotassiumValues()mg of potassium,</li>
+        <li>@GetVitA_Values()% of the RI for vitamin A,</li>
+        <li>@GetVitC_Values()% of the RI for vitamin C,</li>
+        <li>@GetCalciumValues()% of the RI for calcium,</li>
+        <li>and @GetIronValues()% of the RI for iron.</li>
     </ul>
-    <p>There were no notes for this calendar month.</p>
+    <p>There were no notes for this @dataView.SelectedTimePeriod.ToLower().</p>
 </div>

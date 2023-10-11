@@ -1,1 +1,33 @@
-<h3>SingleDayDataView</h3>
+<div class="nutrition-data-details">
+    On @dataView.SelectedSingleDay, for @dataView.SelectedMeal, you consumed:
+    <!-- Conditionally show li values based on checkbox TODO -->
+    <ul>
+        <li>@GetCalorieValues() calories,</li>
+        <li>@GetFatValues()g of fat,
+            <ul>
+                <li>of which @GetSatFatValues()g was saturated fat,</li>
+                <li>@GetPolyFatValues()g was polyunsaturated fat,</li>
+                <li>@GetMonoUnsatFatValues()g was monounsaturated-fat,</li>
+                <li>and @GetTransFatValues()g was trans fat.</li>
+            </ul>
+        </li>
+        <li>@GetCalorieValues()g of carbohydrates,
+            <ul>
+                <li>of which @GetSugarValues()g was sugar,</li>
+            </ul>
+        </li>
+        <li>@GetFibreValues()g of fibre,</li>
+        <li>@GetProteinValues()g of protein,</li>
+        <li>@GetCholesterolValues()mg of cholesterol,</li>
+        <li>and @GetSaltValues()mg of salt.</li>
+    </ul>
+    Additionally, you consumed these micronutrients:
+    <ul>
+        <li>@GetPotassiumValues()mg of potassium,</li>
+        <li>@GetVitA_Values()% of the RI for vitamin A,</li>
+        <li>@GetVitC_Values()% of the RI for vitamin C,</li>
+        <li>@GetCalciumValues()% of the RI for calcium,</li>
+        <li>and @GetIronValues()% of the RI for iron.</li>
+    </ul>
+    <p>There were no notes for this @dataView.SelectedTimePeriod.ToLower().</p>
+</div>

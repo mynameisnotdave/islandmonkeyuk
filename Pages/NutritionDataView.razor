@@ -24,21 +24,32 @@
 {
     case "single-day":
         <label for="single-day-select">Select single day:</label>
-        <InputDate id="single-day-select" TValue="@default(DateOnly)" @bind-Value="SelectedSingleDay" min="@GetEarliestDay()" max="@GetLatestDay()"/>
+        <InputDate id="single-day-select" TValue="DateOnly" @bind-Value="SelectedSingleDay" min="@GetEarliestDay()" max="@GetLatestDay()"/>
         break;
     case "date-range":
         <label for="start-date-select">Select start date:</label>
-        <InputDate id="start-date-select" TValue="@default(DateOnly)" @bind-Value="SelectedStartDate"/>
+        <InputDate id="start-date-select" TValue="DateOnly" @bind-Value="SelectedStartDate"/>
         <label for="end-date-select">Select end date:</label>
-        <InputDate id="end-date-select" TValue="@default(DateOnly)" @bind-Value="SelectedEndDate"/>
+        <InputDate id="end-date-select" TValue="DateOnly" @bind-Value="SelectedEndDate"/>
         break;
     case "month":
         <label for="month-select">Select calendar month:</label>
-        <InputSelect id="month-select" name="month-select" TValue="@default(int)" @bind-Value="SelectedMonth">
+        <InputSelect id="month-select" name="month-select" TValue="int" @bind-Value="SelectedMonth">
             @foreach (var month in PopulateMonthValues())
             {
                 <option value="@month">@DateTimeFormatInfo.CurrentInfo.GetMonthName(month)</option>
             }
         </InputSelect>
         break;
+    case "eternity":
+        if (SelectedMeal == "all-meals")
+        {
+            <EternityDataViewAllMeals/>
+        }
+        else
+        {
+            <EternityDataView/>
+        }
+        break;
 }
+
