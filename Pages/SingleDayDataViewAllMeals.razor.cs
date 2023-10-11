@@ -1,6 +1,13 @@
 namespace islandmonkeyuk.Pages; 
 
-public partial class SingleDayDataView : IGenerateNutritionalValues {
+using System.Linq;
+
+public partial class SingleDayDataViewAllMeals : IGenerateNutritionalValues 
+{
+    private NutritionDataView dataView = new();
+    // So if we did have a single component for all, then we would have to find a way to cleanly switch between different meal types and different date types and display the content based
+    // upon that. That will be tough.
+
 
     public decimal? GetCalorieValues()
     {

@@ -1,15 +1,22 @@
 namespace islandmonkeyuk.Pages;
 
+using Microsoft.AspNetCore.Components;
 using Models;
 
 public partial class NutritionDataView {
     private FileUpload fileUpload = new();
     private NutritionModel nutritionModel = new();
+    [Parameter]
     public string SelectedTimePeriod { get; set; } = string.Empty;
+    [Parameter]
     public DateOnly SelectedSingleDay { get; set; }
+    [Parameter]
     public DateOnly SelectedStartDate { get; set; }
+    [Parameter]
     public DateOnly SelectedEndDate { get; set; }
+    [Parameter]
     public int SelectedMonth { get; set; }
+    [Parameter]
     public string SelectedMeal { get; set; } = string.Empty;
 
     private List<int> PopulateMonthValues()

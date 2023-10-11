@@ -1,6 +1,6 @@
-namespace islandmonkeyuk.Pages;
+namespace islandmonkeyuk.Pages; 
 
-public partial class DateRangeDataView : IGenerateNutritionalValues {
+public partial class DateRangeDataViewAllMeals : IGenerateNutritionalValues {
     private NutritionDataView dataView = new();
 
 
@@ -139,5 +139,4 @@ public partial class DateRangeDataView : IGenerateNutritionalValues {
             select c.Iron;
         return iron.Sum();
     }
-
 }

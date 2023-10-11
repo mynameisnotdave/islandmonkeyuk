@@ -11,7 +11,7 @@ public partial class FileUpload {
     {
     }
 
-    private long maxFileSize = 50001;
+    private readonly long maxFileSize = 50001;
 
     public static IEnumerable<NutritionModel> records { get; private set; }
     private bool loadingSuccess;
@@ -21,7 +21,7 @@ public partial class FileUpload {
     {
         var randomFileNumber = 1;
 
-        if (e.File.Size < maxFileSize && e.File.ContentType.Equals("text/csv"))
+        if (e.File.Size < maxFileSize && e.File.ContentType.Equals("text/csv")) // BUG: Will accept anything renamed as a CSV. Oh dear.
         {
             await using FileStream fs = new($"csv{randomFileNumber:D6}.csv", FileMode.Create);
             await e.File.OpenReadStream().CopyToAsync(fs);

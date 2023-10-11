@@ -1,5 +1,5 @@
 <div class="nutrition-data-details">
-    In @DateTimeFormatInfo.CurrentInfo.GetMonthName(dataView.SelectedMonth), for @dataView.SelectedMeal.ToLower(), you consumed:
+    Between @dataView.SelectedStartDate and @dataView.SelectedEndDate, for @dataView.SelectedMeal, you consumed:
     <!-- Conditionally show li values based on checkbox TODO -->
     <ul>
         <li>@GetCalorieValues() calories,</li>
@@ -11,7 +11,7 @@
                 <li>and @GetTransFatValues()g was trans fat.</li>
             </ul>
         </li>
-        <li>@GetCarbValues()g of carbohydrates,
+        <li>@GetCalorieValues()g of carbohydrates,
             <ul>
                 <li>of which @GetSugarValues()g was sugar,</li>
             </ul>
@@ -29,5 +29,5 @@
         <li>@GetCalciumValues()% of the RI for calcium,</li>
         <li>and @GetIronValues()% of the RI for iron.</li>
     </ul>
-    <p>There were no notes for this @dataView.SelectedTimePeriod.ToLower().</p>
+    <p>There were no notes for this calendar month.</p>
 </div>
