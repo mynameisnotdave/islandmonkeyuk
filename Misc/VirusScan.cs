@@ -29,19 +29,19 @@ public class VirusScan
         var response = await client.PostAsync(request);
         deserializedUploadResponse = JsonConvert.DeserializeObject<VirusScanUploadResponse.Root>(response.ToString());
     }
-
-    /* Yuck, we have a problem on the VirusTotal website trying to get what the API response would
-     look like. */
     private async Task<bool> GetAnalysis()
     {
         var hash = deserializedUploadResponse.data.id;
-        var isMalicious = true;
-        var options = new RestClientOptions("https://www.virustotal.com/api/v3/files/" + HttpUtility.UrlEncode(hash));
+        var isMalicious = true;        
+        var options = new RestClientOptions($"https://www.virustotal.com/api/v3/analyses/{HttpUtility.UrlEncode(hash)}");
         var client = new RestClient(options);
         var request = new RestRequest("");
         request.AddHeader("accept", "application/json");
         request.AddHeader("x-apikey", virusScanApiKey);
         var response = await client.GetAsync(request);
+        var deserializedAnalysisResponse = JsonConvert.DeserializeObject<VirusScanUploadResponse.Root>(response.ToString());
         return isMalicious;
+
+        
     }
 }
