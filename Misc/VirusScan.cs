@@ -40,7 +40,15 @@ public class VirusScan
         request.AddHeader("x-apikey", virusScanApiKey);
         var response = await client.GetAsync(request);
         var deserializedAnalysisResponse = JsonConvert.DeserializeObject<VirusScanAnalysisResponse.Root>(response.ToString());
-        return isMalicious;
+        if (deserializedAnalysisResponse.data.attributes.stats.malicious == 0)
+        {
+            return !isMalicious;
+        }
+        else
+        {
+            return isMalicious;
+        }
+        
 
         
     }
