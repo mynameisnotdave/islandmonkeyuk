@@ -32,24 +32,25 @@ public class VirusScan
     private async Task<bool> GetAnalysis()
     {
         var hash = deserializedUploadResponse.data.id;
-        var isMalicious = true;        
+        var isMalicious = true;
         var options = new RestClientOptions($"https://www.virustotal.com/api/v3/analyses/{HttpUtility.UrlEncode(hash)}");
         var client = new RestClient(options);
         var request = new RestRequest("");
         request.AddHeader("accept", "application/json");
         request.AddHeader("x-apikey", virusScanApiKey);
-        var response = await client.GetAsync(request);
+        RestResponse? response = await client.GetAsync(request);
         var deserializedAnalysisResponse = JsonConvert.DeserializeObject<VirusScanAnalysisResponse.Root>(response.ToString());
-        if (deserializedAnalysisResponse.data.attributes.stats.malicious == 0)
+        if (!deserializedAnalysisResponse.data.attributes.status.Equals("completed"))
         {
-            return !isMalicious;
+            response = await client.GetAsync(request);// do the request again if it is not completed
         }
         else
         {
-            return isMalicious;
+            if (deserializedAnalysisResponse.data.attributes.stats.malicious == 0)
+            {
+                return !isMalicious;
+            }
         }
-        
-
-        
+        return isMalicious;
     }
 }
