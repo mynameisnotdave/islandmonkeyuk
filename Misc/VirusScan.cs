@@ -12,11 +12,6 @@ public class VirusScan
     private string hash = string.Empty;
     private string virusScanApiKey = string.Empty;
 
-    public VirusScan(IConfiguration config)
-    {
-        config = config;
-    }
-
     private async Task RunVirusScanner(string path)
     {
         var options = new RestClientOptions("https://www.virustotal.com/api/v3/files");
