@@ -6,7 +6,6 @@ namespace islandmonkeyuk.Misc;
 
 public class VirusScan
 {
-    private readonly IConfiguration config;
     //private VirusScanAnalysisResponse.Root deserializedAnalysisResponse;
     private VirusScanUploadResponse.Root deserializedUploadResponse;
     private string hash = string.Empty;
@@ -20,8 +19,9 @@ public class VirusScan
         {
             AlwaysMultipartFormData = true
         };
-        VirusScanSettings? virusScanConfig = config.GetSection("VirusScan").Get<VirusScanSettings>();
-        virusScanApiKey = virusScanConfig.VirusScanApiKey;
+        var builder = new ConfigurationBuilder().AddUserSecrets<VirusScanSettings>();
+        IConfiguration config = builder.Build();
+        virusScanApiKey = config["VirusScan:ApiKey"];
         request.AddHeader("accept", "application/json");
         request.AddHeader("x-apikey", virusScanApiKey);
         request.FormBoundary = "---011000010111000001101001";
