@@ -35,7 +35,7 @@
     case "month":
         <label for="month-select">Select calendar month:</label>
         <InputSelect id="month-select" name="month-select" TValue="int" @bind-Value="SelectedMonth">
-            @foreach (var month in PopulateMonthValues())
+            @foreach (int month in PopulateMonthValues())
             {
                 <option value="@month">@DateTimeFormatInfo.CurrentInfo.GetMonthName(month)</option>
             }

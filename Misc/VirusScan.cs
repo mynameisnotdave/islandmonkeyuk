@@ -14,32 +14,32 @@ public class VirusScan
 
     private async Task RunVirusScanner(string path)
     {
-        var options = new RestClientOptions("https://www.virustotal.com/api/v3/files");
-        var client = new RestClient(options);
-        var request = new RestRequest("")
+        RestClientOptions options = new RestClientOptions("https://www.virustotal.com/api/v3/files");
+        RestClient client = new RestClient(options);
+        RestRequest request = new RestRequest("")
         {
             AlwaysMultipartFormData = true
         };
-        var virusScanConfig = config.GetSection("VirusScan").Get<VirusScanSettings>();
+        VirusScanSettings? virusScanConfig = config.GetSection("VirusScan").Get<VirusScanSettings>();
         virusScanApiKey = virusScanConfig.VirusScanApiKey;
         request.AddHeader("accept", "application/json");
         request.AddHeader("x-apikey", virusScanApiKey);
         request.FormBoundary = "---011000010111000001101001";
         request.AddFile("file", path);
-        var response = await client.PostAsync(request);
+        RestResponse response = await client.PostAsync(request);
         deserializedUploadResponse = JsonConvert.DeserializeObject<VirusScanUploadResponse.Root>(response.ToString());
     }
     private async Task<bool> GetAnalysis()
     {
-        var hash = deserializedUploadResponse.data.id;
-        var isMalicious = true;
-        var options = new RestClientOptions($"https://www.virustotal.com/api/v3/analyses/{HttpUtility.UrlEncode(hash)}");
-        var client = new RestClient(options);
-        var request = new RestRequest("");
+        string hash = deserializedUploadResponse.data.id;
+        bool isMalicious = true;
+        RestClientOptions options = new RestClientOptions($"https://www.virustotal.com/api/v3/analyses/{HttpUtility.UrlEncode(hash)}");
+        RestClient client = new RestClient(options);
+        RestRequest request = new RestRequest("");
         request.AddHeader("accept", "application/json");
         request.AddHeader("x-apikey", virusScanApiKey);
         RestResponse? response = await client.GetAsync(request);
-        var deserializedAnalysisResponse = JsonConvert.DeserializeObject<VirusScanAnalysisResponse.Root>(response.ToString());
+        VirusScanAnalysisResponse.Root? deserializedAnalysisResponse = JsonConvert.DeserializeObject<VirusScanAnalysisResponse.Root>(response.ToString());
         if (!deserializedAnalysisResponse.data.attributes.status.Equals("completed"))
         {
             response = await client.GetAsync(request);// do the request again if it is not completed

@@ -21,7 +21,7 @@ public partial class NutritionDataView {
 
     private List<int> PopulateMonthValues()
     {
-        var months = from date in FileUpload.records
+        IEnumerable<int> months = from date in FileUpload.records
             group date by date.Date.Month
             into grouped
             select grouped.Key;
@@ -30,7 +30,7 @@ public partial class NutritionDataView {
 
     private DateOnly GetEarliestDay()
     {
-        var records = FileUpload.records;
+        IEnumerable<NutritionModel> records = FileUpload.records;
         return records.Min(record => record.Date);
     }
 
@@ -41,9 +41,9 @@ public partial class NutritionDataView {
 
     public bool ContainsNotes()
     {
-        var notes = from c in FileUpload.records
+        IEnumerable<string> notes = from c in FileUpload.records
             select c.Note;
-        foreach (var note in notes)
+        foreach (string note in notes)
         {
             if (note.Contains(""))
             {

@@ -6,7 +6,7 @@ public partial class DateRangeDataViewAllMeals : IGenerateNutritionalValues {
 
     public decimal? GetCalorieValues()
     {
-        var calories = from c in FileUpload.records
+        IEnumerable<decimal?> calories = from c in FileUpload.records
             where c.Date >= dataView.SelectedStartDate & c.Date <= dataView.SelectedEndDate & c.Meal == dataView.SelectedMeal
             select c.Calories;
 
@@ -14,7 +14,7 @@ public partial class DateRangeDataViewAllMeals : IGenerateNutritionalValues {
     }
     public decimal? GetFatValues()
     {
-        var fats = from c in FileUpload.records
+        IEnumerable<decimal?> fats = from c in FileUpload.records
             where c.Date >= dataView.SelectedStartDate & c.Date <= dataView.SelectedEndDate & c.Meal == dataView.SelectedMeal
             select c.Fat;
         return fats.Sum();
@@ -22,7 +22,7 @@ public partial class DateRangeDataViewAllMeals : IGenerateNutritionalValues {
 
     public decimal? GetSatFatValues()
     {
-        var satFats = from c in FileUpload.records
+        IEnumerable<decimal?> satFats = from c in FileUpload.records
             where c.Date >= dataView.SelectedStartDate & c.Date <= dataView.SelectedEndDate & c.Meal == dataView.SelectedMeal
             select c.SaturatedFat;
         return satFats.Sum();
@@ -30,7 +30,7 @@ public partial class DateRangeDataViewAllMeals : IGenerateNutritionalValues {
 
     public decimal? GetMonoUnsatFatValues()
     {
-        var monoUnsatFats = from c in FileUpload.records
+        IEnumerable<decimal?> monoUnsatFats = from c in FileUpload.records
             where c.Date >= dataView.SelectedStartDate & c.Date <= dataView.SelectedEndDate & c.Meal == dataView.SelectedMeal
             select c.MonounsaturatedFat;
         return monoUnsatFats.Sum();
@@ -38,7 +38,7 @@ public partial class DateRangeDataViewAllMeals : IGenerateNutritionalValues {
 
     public decimal? GetPolyFatValues()
     {
-        var polyFats = from c in FileUpload.records
+        IEnumerable<decimal?> polyFats = from c in FileUpload.records
             where c.Date >= dataView.SelectedStartDate & c.Date <= dataView.SelectedEndDate & c.Meal == dataView.SelectedMeal
             select c.PolyunsaturatedFat;
         return polyFats.Sum();
@@ -46,7 +46,7 @@ public partial class DateRangeDataViewAllMeals : IGenerateNutritionalValues {
 
     public decimal? GetTransFatValues()
     {
-        var transFats = from c in FileUpload.records
+        IEnumerable<decimal?> transFats = from c in FileUpload.records
             where c.Date >= dataView.SelectedStartDate & c.Date <= dataView.SelectedEndDate & c.Meal == dataView.SelectedMeal
             select c.TransFat;
         return transFats.Sum();
@@ -54,7 +54,7 @@ public partial class DateRangeDataViewAllMeals : IGenerateNutritionalValues {
 
     public decimal? GetCarbValues()
     {
-        var carbs = from c in FileUpload.records
+        IEnumerable<decimal?> carbs = from c in FileUpload.records
             where c.Date >= dataView.SelectedStartDate & c.Date <= dataView.SelectedEndDate & c.Meal == dataView.SelectedMeal
             select c.Carbohydrates;
         return carbs.Sum();
@@ -62,7 +62,7 @@ public partial class DateRangeDataViewAllMeals : IGenerateNutritionalValues {
 
     public decimal? GetSugarValues()
     {
-        var sugars = from c in FileUpload.records
+        IEnumerable<decimal?> sugars = from c in FileUpload.records
             where c.Date >= dataView.SelectedStartDate & c.Date <= dataView.SelectedEndDate & c.Meal == dataView.SelectedMeal
             select c.Sugar;
         return sugars.Sum();
@@ -70,7 +70,7 @@ public partial class DateRangeDataViewAllMeals : IGenerateNutritionalValues {
 
     public decimal? GetFibreValues()
     {
-        var fibre = from c in FileUpload.records
+        IEnumerable<decimal?> fibre = from c in FileUpload.records
             where c.Date >= dataView.SelectedStartDate & c.Date <= dataView.SelectedEndDate & c.Meal == dataView.SelectedMeal
             select c.Fiber;
         return fibre.Sum();
@@ -78,7 +78,7 @@ public partial class DateRangeDataViewAllMeals : IGenerateNutritionalValues {
 
     public decimal? GetProteinValues()
     {
-        var protein = from c in FileUpload.records
+        IEnumerable<decimal?> protein = from c in FileUpload.records
             where c.Date >= dataView.SelectedStartDate & c.Date <= dataView.SelectedEndDate & c.Meal == dataView.SelectedMeal
             select c.Protein;
         return protein.Sum();
@@ -86,7 +86,7 @@ public partial class DateRangeDataViewAllMeals : IGenerateNutritionalValues {
 
     public decimal? GetCholesterolValues()
     {
-        var cholesterol = from c in FileUpload.records
+        IEnumerable<decimal?> cholesterol = from c in FileUpload.records
             where c.Date >= dataView.SelectedStartDate & c.Date <= dataView.SelectedEndDate & c.Meal == dataView.SelectedMeal
             select c.Cholesterol;
         return cholesterol.Sum();
@@ -94,7 +94,7 @@ public partial class DateRangeDataViewAllMeals : IGenerateNutritionalValues {
 
     public decimal? GetSaltValues()
     {
-        var salts = from c in FileUpload.records
+        IEnumerable<decimal?> salts = from c in FileUpload.records
             where c.Date >= dataView.SelectedStartDate & c.Date <= dataView.SelectedEndDate & c.Meal == dataView.SelectedMeal
             select c.Sodium;
         return salts.Sum();
@@ -102,7 +102,7 @@ public partial class DateRangeDataViewAllMeals : IGenerateNutritionalValues {
 
     public decimal? GetPotassiumValues()
     {
-        var potassium = from c in FileUpload.records
+        IEnumerable<decimal?> potassium = from c in FileUpload.records
             where c.Date >= dataView.SelectedStartDate & c.Date <= dataView.SelectedEndDate & c.Meal == dataView.SelectedMeal
             select c.Potassium;
         return potassium.Sum();
@@ -110,7 +110,7 @@ public partial class DateRangeDataViewAllMeals : IGenerateNutritionalValues {
 
     public decimal? GetVitA_Values()
     {
-        var vitAs = from c in FileUpload.records
+        IEnumerable<decimal?> vitAs = from c in FileUpload.records
             where c.Date >= dataView.SelectedStartDate & c.Date <= dataView.SelectedEndDate & c.Meal == dataView.SelectedMeal
             select c.VitaminA;
         return vitAs.Sum();
@@ -118,7 +118,7 @@ public partial class DateRangeDataViewAllMeals : IGenerateNutritionalValues {
 
     public decimal? GetVitC_Values()
     {
-        var vitC = from c in FileUpload.records
+        IEnumerable<decimal?> vitC = from c in FileUpload.records
             where c.Date >= dataView.SelectedStartDate & c.Date <= dataView.SelectedEndDate & c.Meal == dataView.SelectedMeal
             select c.VitaminC;
         return vitC.Sum();
@@ -126,7 +126,7 @@ public partial class DateRangeDataViewAllMeals : IGenerateNutritionalValues {
 
     public decimal? GetCalciumValues()
     {
-        var calcium = from c in FileUpload.records
+        IEnumerable<decimal?> calcium = from c in FileUpload.records
             where c.Date >= dataView.SelectedStartDate & c.Date <= dataView.SelectedEndDate & c.Meal == dataView.SelectedMeal
             select c.Calcium;
         return calcium.Sum();
@@ -134,7 +134,7 @@ public partial class DateRangeDataViewAllMeals : IGenerateNutritionalValues {
 
     public decimal? GetIronValues()
     {
-        var iron = from c in FileUpload.records
+        IEnumerable<decimal?> iron = from c in FileUpload.records
             where c.Date >= dataView.SelectedStartDate & c.Date <= dataView.SelectedEndDate & c.Meal == dataView.SelectedMeal
             select c.Iron;
         return iron.Sum();
