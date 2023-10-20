@@ -12,7 +12,7 @@ public class VirusScan
     private string hash = string.Empty;
     private string virusScanApiKey = string.Empty;
 
-    private async Task RunVirusScanner(string path)
+    public async Task RunVirusScanner(string path)
     {
         RestClientOptions options = new RestClientOptions("https://www.virustotal.com/api/v3/files");
         RestClient client = new RestClient(options);
@@ -29,10 +29,9 @@ public class VirusScan
         RestResponse response = await client.PostAsync(request);
         deserializedUploadResponse = JsonConvert.DeserializeObject<VirusScanUploadResponse.Root>(response.ToString());
     }
-    private async Task<bool> GetAnalysis()
+    public async Task<bool> IsMalicious()
     {
-        string hash = deserializedUploadResponse.data.id;
-        bool isMalicious = true;
+        hash = deserializedUploadResponse.data.id;
         RestClientOptions options = new RestClientOptions($"https://www.virustotal.com/api/v3/analyses/{HttpUtility.UrlEncode(hash)}");
         RestClient client = new RestClient(options);
         RestRequest request = new RestRequest("");
@@ -46,11 +45,11 @@ public class VirusScan
         }
         else
         {
-            if (deserializedAnalysisResponse.data.attributes.stats.malicious == 0)
+            if (deserializedAnalysisResponse.data.attributes.stats.malicious != 0)
             {
-                return !isMalicious;
+                return true;
             }
         }
-        return isMalicious;
+        return false;
     }
 }

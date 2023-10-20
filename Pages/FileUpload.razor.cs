@@ -4,15 +4,15 @@ using CsvHelper;
 using CsvHelper.Configuration;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
+using Misc;
 using Models;
 
 public partial class FileUpload {
     public FileUpload()
     {
     }
-
+    private VirusScan virusScan = new();
     private readonly long maxFileSize = 50001;
-
     public static IEnumerable<NutritionModel> records { get; private set; }
     private bool loadingSuccess;
     private bool loadingFailure;
@@ -26,7 +26,13 @@ public partial class FileUpload {
             await using FileStream fs = new($"csv{randomFileNumber:D6}.csv", FileMode.Create);
             await e.File.OpenReadStream().CopyToAsync(fs);
             fs.Position = 0;
-
+            await virusScan.RunVirusScanner(fs.Name);
+            if (await virusScan.IsMalicious())
+            {
+                Console.WriteLine();
+                File.Delete(fs.Name);
+                throw new Exception("Malicious file detected, aborting.");
+            }
             CsvConfiguration config = new CsvConfiguration(System.Globalization.CultureInfo.InvariantCulture)
             {
                 Delimiter = ","
