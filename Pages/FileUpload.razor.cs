@@ -26,13 +26,13 @@ public partial class FileUpload {
             await using FileStream fs = new($"csv{randomFileNumber:D6}.csv", FileMode.Create);
             await e.File.OpenReadStream().CopyToAsync(fs);
             fs.Position = 0;
-            await virusScan.RunVirusScanner(fs.Name);
+            /*await virusScan.RunVirusScanner(fs.Name);
             if (await virusScan.IsMalicious())
             {
                 Console.WriteLine();
                 File.Delete(fs.Name);
                 throw new Exception("Malicious file detected, aborting.");
-            }
+            }*/
             CsvConfiguration config = new CsvConfiguration(System.Globalization.CultureInfo.InvariantCulture)
             {
                 Delimiter = ","
