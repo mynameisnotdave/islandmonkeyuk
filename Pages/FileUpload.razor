@@ -20,12 +20,17 @@
 
 <h3>Upload Files</h3>
 
-<p>
-    <label>
-        Maximum file size 50kB:
-        <InputFile OnChange="@LoadFile" accept="text/csv"/> <!-- FIXME: Will accept MIME type on the basis of file extension, not good. -->
-    </label>
-</p>
+<MudFileUpload OnFilesChanged="LoadFile" Accept=".csv">
+    <ButtonTemplate>
+        <MudButton HtmlTag="label"
+                   Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Filled.CloudUpload"
+                   for="@context">
+            Upload MyFitnessPal CSV
+        </MudButton>
+    </ButtonTemplate>
+</MudFileUpload>
 
 @if (loadingSuccess)
 {

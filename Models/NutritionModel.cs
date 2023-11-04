@@ -2,9 +2,8 @@
 
 namespace islandmonkeyuk.Models;
 
-public class NutritionModel
-{
-    [Name("Date")] public DateOnly Date { get; set; }
+public class NutritionModel {
+    [Name("Date")] public DateTime Date { get; set; }
 
     [Name("Meal")] public string Meal { get; set; } = string.Empty;
 

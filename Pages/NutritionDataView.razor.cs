@@ -2,6 +2,7 @@ namespace islandmonkeyuk.Pages;
 
 using Microsoft.AspNetCore.Components;
 using Models;
+using MudBlazor;
 
 public partial class NutritionDataView {
     private FileUpload fileUpload = new();
@@ -14,16 +15,68 @@ public partial class NutritionDataView {
     public DateOnly SelectedSingleDay { get; set; }
 
     [Parameter]
-    public DateOnly SelectedStartDate { get; set; }
+    public static DateOnly SelectedStartDate { get; set; }
 
     [Parameter]
-    public DateOnly SelectedEndDate { get; set; }
+    public static DateOnly SelectedEndDate { get; set; }
 
     [Parameter]
     public int SelectedMonth { get; set; }
 
     [Parameter]
     public string SelectedMeal { get; set; }
+    
+    [Parameter]
+    [EditorRequired]
+    public DateOnly Date { get; set; }
+    
+    [Parameter]
+    public static EventCallback<DateOnly> DateChanged { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public string? Label { get; set; }
+
+    private DateRange dateRange = new DateRange(selectedStartDate, selectedEndDate);
+
+    private DateTime? selectedSingleDay
+    {
+        get => SelectedSingleDay.ToDateTime(TimeOnly.MinValue);
+        set
+        {
+            if (value is not null)
+            {
+                SelectedSingleDay = DateOnly.FromDateTime((DateTime)value);
+                DateChanged.InvokeAsync(SelectedSingleDay);
+            }
+        }
+    }
+    
+    private static DateTime? selectedStartDate
+    {
+        get => SelectedStartDate.ToDateTime(TimeOnly.MinValue);
+        set
+        {
+            if (value is not null)
+            {
+                SelectedStartDate = DateOnly.FromDateTime((DateTime)value);
+                DateChanged.InvokeAsync(SelectedStartDate);
+            }
+        }
+    }
+    
+    private static DateTime? selectedEndDate
+    {
+        get => SelectedEndDate.ToDateTime(TimeOnly.MinValue);
+        set
+        {
+            if (value is not null)
+            {
+                SelectedEndDate = DateOnly.FromDateTime((DateTime)value);
+                DateChanged.InvokeAsync(SelectedEndDate);
+            }
+        }
+    }
     private void SelectedMealChanged(ChangeEventArgs e)
     {
         if (e.Value is not null)
@@ -77,22 +130,32 @@ private List<int> PopulateMonthValues()
         }
         return false;
     }
-    
-        public decimal? GetCalorieValues()
-    {
-        var calories = from c in FileUpload.records
-            where c.Meal == SelectedMeal
-            select c.Calories;
 
-        return calories.Sum();
+    private decimal? GetCalorieValues()
+    {
+        if (SelectedMeal == "All meals" && SelectedTimePeriod == "single-day")
+        {
+            IEnumerable<decimal?> calsSingleDayAllMeals = from c in FileUpload.records
+                where c.Date == SelectedSingleDay
+                select c.Calories;
+            return calsSingleDayAllMeals.Sum();
+        }
+        else if (SelectedMeal != "All meals" && SelectedTimePeriod == "date-range")
+        {
+            var calsDateRangeAllMeals = from c in FileUpload.records
+                where c.Meal == SelectedMeal && c.Date >= dateRange.Start && c.Date <= dateRange.End
+                select c.Calories;
+            return calsDateRangeAllMeals.Sum();
+        }
+
     }
-    public decimal? GetFatValues()
+    private decimal? GetFatValues()
     {
         var fats = FileUpload.records.Where(c => c.Meal == SelectedMeal).Select(c => c.Fat);
         return fats.Sum();
     }
 
-    public decimal? GetSatFatValues()
+    private decimal? GetSatFatValues()
     {
         IEnumerable<decimal?> satFats = from c in FileUpload.records
             where c.Meal == SelectedMeal
@@ -100,7 +163,7 @@ private List<int> PopulateMonthValues()
         return satFats.Sum();
     }
 
-    public decimal? GetMonoUnsatFatValues()
+    private decimal? GetMonoUnsatFatValues()
     {
         IEnumerable<decimal?> monoUnsatFats = from c in FileUpload.records
             where c.Meal == SelectedMeal
@@ -108,7 +171,7 @@ private List<int> PopulateMonthValues()
         return monoUnsatFats.Sum();
     }
 
-    public decimal? GetPolyFatValues()
+    private decimal? GetPolyFatValues()
     {
         IEnumerable<decimal?> polyFats = from c in FileUpload.records
             where c.Meal == SelectedMeal
@@ -116,7 +179,7 @@ private List<int> PopulateMonthValues()
         return polyFats.Sum();
     }
 
-    public decimal? GetTransFatValues()
+    private decimal? GetTransFatValues()
     {
         IEnumerable<decimal?> transFats = from c in FileUpload.records
             where c.Meal == SelectedMeal
@@ -124,7 +187,7 @@ private List<int> PopulateMonthValues()
         return transFats.Sum();
     }
 
-    public decimal? GetCarbValues()
+    private decimal? GetCarbValues()
     {
         IEnumerable<decimal?> carbs = from c in FileUpload.records
             where c.Meal == SelectedMeal
@@ -132,7 +195,7 @@ private List<int> PopulateMonthValues()
         return carbs.Sum();
     }
 
-    public decimal? GetSugarValues()
+    private decimal? GetSugarValues()
     {
         IEnumerable<decimal?> sugars = from c in FileUpload.records
             where c.Meal == SelectedMeal
@@ -140,7 +203,7 @@ private List<int> PopulateMonthValues()
         return sugars.Sum();
     }
 
-    public decimal? GetFibreValues()
+    private decimal? GetFibreValues()
     {
         IEnumerable<decimal?> fibre = from c in FileUpload.records
             where c.Meal == SelectedMeal
@@ -148,7 +211,7 @@ private List<int> PopulateMonthValues()
         return fibre.Sum();
     }
 
-    public decimal? GetProteinValues()
+    private decimal? GetProteinValues()
     {
         IEnumerable<decimal?> protein = from c in FileUpload.records
             where c.Meal == SelectedMeal
@@ -156,7 +219,7 @@ private List<int> PopulateMonthValues()
         return protein.Sum();
     }
 
-    public decimal? GetCholesterolValues()
+    private decimal? GetCholesterolValues()
     {
         IEnumerable<decimal?> cholesterol = from c in FileUpload.records
             where c.Meal == SelectedMeal
@@ -164,7 +227,7 @@ private List<int> PopulateMonthValues()
         return cholesterol.Sum();
     }
 
-    public decimal? GetSaltValues()
+    private decimal? GetSaltValues()
     {
         IEnumerable<decimal?> salts = from c in FileUpload.records
             where c.Meal == SelectedMeal
@@ -172,7 +235,7 @@ private List<int> PopulateMonthValues()
         return salts.Sum();
     }
 
-    public decimal? GetPotassiumValues()
+    private decimal? GetPotassiumValues()
     {
         IEnumerable<decimal?> potassium = from c in FileUpload.records
             where c.Meal == SelectedMeal
@@ -180,7 +243,7 @@ private List<int> PopulateMonthValues()
         return potassium.Sum();
     }
 
-    public decimal? GetVitA_Values()
+    private decimal? GetVitA_Values()
     {
         IEnumerable<decimal?> vitAs = from c in FileUpload.records
             where c.Meal == SelectedMeal
@@ -188,7 +251,7 @@ private List<int> PopulateMonthValues()
         return vitAs.Sum();
     }
 
-    public decimal? GetVitC_Values()
+    private decimal? GetVitC_Values()
     {
         IEnumerable<decimal?> vitC = from c in FileUpload.records
             where c.Meal == SelectedMeal
@@ -196,7 +259,7 @@ private List<int> PopulateMonthValues()
         return vitC.Sum();
     }
 
-    public decimal? GetCalciumValues()
+    private decimal? GetCalciumValues()
     {
         IEnumerable<decimal?> calcium = from c in FileUpload.records
             where c.Meal == SelectedMeal
@@ -204,7 +267,7 @@ private List<int> PopulateMonthValues()
         return calcium.Sum();
     }
 
-    public decimal? GetIronValues()
+    private decimal? GetIronValues()
     {
         IEnumerable<decimal?> iron = from c in FileUpload.records
             where c.Meal == SelectedMeal
