@@ -13,6 +13,9 @@
         <EmbeddedResource Remove="UXmockups\**"/>
         <None Remove="UXmockups\**"/>
         <None Remove="csv000001.csv" />
+        <Compile Remove="Pages\EternityDataView.razor.cs" />
+        <Content Remove="Pages\CalendarMonthDataViewAllMeals.razor" />
+        <Compile Remove="Pages\CalendarMonthDataViewAllMeals.razor.cs" />
     </ItemGroup>
 
     <ItemGroup>

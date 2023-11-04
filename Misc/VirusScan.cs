@@ -7,7 +7,7 @@ namespace islandmonkeyuk.Misc;
 public class VirusScan
 {
     //private VirusScanAnalysisResponse.Root deserializedAnalysisResponse;
-    private VirusScanUploadResponse.Root deserializedUploadResponse;
+    private Root deserializedUploadResponse;
     private string hash = string.Empty;
     private string virusScanApiKey = string.Empty;
 
@@ -27,7 +27,7 @@ public class VirusScan
         request.FormBoundary = "---011000010111000001101001";
         request.AddFile("file", path);
         RestResponse response = await client.PostAsync(request);
-        deserializedUploadResponse = JsonConvert.DeserializeObject<VirusScanUploadResponse.Root>(response.ToString());
+        deserializedUploadResponse = JsonConvert.DeserializeObject<Root>(response.ToString());
     }
     public async Task<bool> IsMalicious()
     {
