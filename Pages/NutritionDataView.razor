@@ -1,6 +1,6 @@
 <div class="date-select">
     <label for="date-select">Select date range:</label>
-    <select name="date-select" id="date-select" @bind="SelectedTimePeriod">
+    <select name="date-select" id="date-select" @onchange="SelectedDateChanged">
         <option value="single-day">Single day</option>
         <option value="date-range">Date range</option>
         <option value="month">Calendar month</option>
@@ -20,8 +20,8 @@
 </div>
 
 
-<!--
-switch (SelectedTimePeriod)
+
+@switch (SelectedTimePeriod)
 {
     case "single-day":
         <label for="single-day-select">Select single day:</label>
@@ -42,20 +42,27 @@ switch (SelectedTimePeriod)
             }
         </InputSelect>
         break;
-    case "eternity":
-        if (SelectedMeal == "All meals")
-        {
-            <EternityDataViewAllMeals/>
-        }
-        else
-        {
-            <EternityDataView/>
-        }
-        break;
 }
--->
+
 <div class="nutrition-data-details">
-    Since the beginning of time, for @SelectedMeal, you consumed:
+    @switch (SelectedTimePeriod)
+    {
+      case "single-day":
+          <p>On @SelectedSingleDay</p>
+          break;
+      case "date-range":
+          <p>Between @SelectedStartDate and @SelectedEndDate</p>
+          break;
+      case "month":
+          <p>In @SelectedMonth</p>
+          break;
+      case "eternity":
+          <p>Since the beginning of time</p>
+          break;
+      default:
+          SelectedTimePeriod = "eternity";
+          break;
+    }, for @SelectedMeal, you consumed:
     <!-- Conditionally show li values based on checkbox TODO -->
     <ul>
         <li>@GetCalorieValues() calories,</li>

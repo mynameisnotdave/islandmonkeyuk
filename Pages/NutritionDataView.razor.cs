@@ -32,6 +32,14 @@ public partial class NutritionDataView {
         }
     }
     
+    private void SelectedDateChanged(ChangeEventArgs e)
+    {
+        if (e.Value is not null)
+        {
+          SelectedTimePeriod = (string)e.Value;  
+        }
+        
+    }
 private List<int> PopulateMonthValues()
     {
         IEnumerable<int> months = from date in FileUpload.records
@@ -203,5 +211,6 @@ private List<int> PopulateMonthValues()
             select c.Iron;
         return iron.Sum();
     }
+
 
 }
