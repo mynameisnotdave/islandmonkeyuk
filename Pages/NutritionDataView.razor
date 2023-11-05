@@ -26,14 +26,14 @@
     case "single-day":
         <label for="single-day-select">Select single day:</label>
         <MudDatePicker id="single-day-select" 
-                       MinDate="GetEarliestDay().ToDateTime(TimeOnly.MinValue, DateTimeKind.Local)" 
-                       MaxDate="GetLatestDay().ToDateTime(TimeOnly.MaxValue, DateTimeKind.Local)" 
+                       MinDate="GetEarliestDay()" 
+                       MaxDate="GetLatestDay()" 
                        Editable @bind-Date="selectedSingleDay" For="@(() => selectedSingleDay)"/>
         break;
     case "date-range":
         <MudDateRangePicker 
-            MinDate="GetEarliestDay().ToDateTime(TimeOnly.MinValue, DateTimeKind.Local)" 
-            MaxDate="GetLatestDay().ToDateTime(TimeOnly.MaxValue, DateTimeKind.Local)" Editable @bind-DateRange="dateRange"/>
+            MinDate="GetEarliestDay()" 
+            MaxDate="GetLatestDay()" Editable @bind-DateRange="dateRange"/>
         break;
     case "month":
         <label for="month-select">Select calendar month:</label>
