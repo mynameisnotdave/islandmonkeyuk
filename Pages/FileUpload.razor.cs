@@ -13,7 +13,7 @@ public partial class FileUpload {
     }
     private VirusScan virusScan = new();
     private readonly long maxFileSize = 50001;
-    public static IEnumerable<NutritionModel> records { get; private set; }
+    public static IEnumerable<NutritionModel> Records { get; private set; }
     private bool loadingSuccess;
     private bool loadingFailure;
 
@@ -55,7 +55,7 @@ public partial class FileUpload {
             else
             {
                 // Don't like having this as a list, but seems like we have to make Linq happy
-                records = await csv.GetRecordsAsync<NutritionModel>().ToListAsync();
+                Records = await csv.GetRecordsAsync<NutritionModel>().ToListAsync();
                 loadingSuccess = true;
             }
         }
