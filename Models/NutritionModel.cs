@@ -3,7 +3,7 @@
 namespace islandmonkeyuk.Models;
 
 public class NutritionModel {
-    [Name("Date")] public DateTime Date { get; set; }
+    [Name("Date")] public DateTime Date { get; set; } = new DateTime().Date;
 
     [Name("Meal")] public string Meal { get; set; } = string.Empty;
 
