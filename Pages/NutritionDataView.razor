@@ -50,16 +50,16 @@
     @switch (SelectedTimePeriod)
     {
       case "single-day":
-          <p>On @SelectedSingleDay</p>
+          <span class="single-day-switch">On @SelectedSingleDay</span>
           break;
       case "date-range":
-          <p>Between @SelectedStartDate and @SelectedEndDate</p>
+          <span class="date-range-switch">Between @SelectedStartDate and @SelectedEndDate</span>
           break;
       case "month":
-          <p>In @SelectedMonth</p>
+          <span class="month-switch">In @DateTimeFormatInfo.CurrentInfo.GetMonthName(SelectedMonth) @nutritionModel.Date.Year</span>
           break;
       case "eternity":
-          <p>Since the beginning of time</p>
+          <span class="eternity-switch">Since the beginning of time</span>
           break;
       default:
           SelectedTimePeriod = "eternity";
