@@ -16,6 +16,10 @@
         <Compile Remove="Pages\EternityDataView.razor.cs" />
         <Content Remove="Pages\CalendarMonthDataViewAllMeals.razor" />
         <Compile Remove="Pages\CalendarMonthDataViewAllMeals.razor.cs" />
+        <Compile Remove="islandmonkeyuk.Tests\**" />
+        <EmbeddedResource Remove="islandmonkeyuk.Tests\**" />
+        <Content Remove="islandmonkeyuk.Tests\**" />
+        <None Remove="islandmonkeyuk.Tests\**" />
     </ItemGroup>
 
     <ItemGroup>
