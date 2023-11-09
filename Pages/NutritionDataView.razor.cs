@@ -39,6 +39,15 @@ public partial class NutritionDataView {
 
     private DateRange dateRange = new DateRange(selectedStartDate, selectedEndDate);
 
+    private decimal errorReturnVal = 6006135;
+    
+    public decimal ErrorReturnValForTesting { get;  }
+
+    public NutritionDataView()
+    {
+        ErrorReturnValForTesting = errorReturnVal;
+    }
+
     private DateTime? selectedSingleDay
     {
         get => SelectedSingleDay.ToDateTime(TimeOnly.MinValue);
@@ -130,7 +139,7 @@ private List<int> PopulateMonthValues()
         return false;
     }
 
-    private decimal? GetCalorieValues()
+    public decimal? GetCalorieValues()
     {
         // I know nesting is bad but this could be considered
         if (SelectedMeal == "All meals" & SelectedTimePeriod == "single-day")
@@ -188,9 +197,9 @@ private List<int> PopulateMonthValues()
                 select c.Calories;
             return calsEternityAllMeals.Sum();
         }
-        return 6006135;
+        return errorReturnVal;
     }
-    private decimal? GetFatValues()
+    public decimal? GetFatValues()
     {
     // I know nesting is bad but this could be considered
         if (SelectedMeal == "All meals" & SelectedTimePeriod == "single-day")
@@ -248,10 +257,10 @@ private List<int> PopulateMonthValues()
                 select c.Fat;
             return fatEternityAllMeals.Sum();
         }
-        return 6006135;
+        return errorReturnVal;
     }
 
-    private decimal? GetSatFatValues()
+    public decimal? GetSatFatValues()
     {
     // I know nesting is bad but this could be considered
         if (SelectedMeal == "All meals" & SelectedTimePeriod == "single-day")
@@ -309,10 +318,10 @@ private List<int> PopulateMonthValues()
                 select c.SaturatedFat;
             return satFatEternityAllMeals.Sum();
         }
-        return 6006135;
+        return errorReturnVal;
     }
 
-    private decimal? GetMonoUnsatFatValues()
+    public decimal? GetMonoUnsatFatValues()
     {
     // I know nesting is bad but this could be considered
         if (SelectedMeal == "All meals" & SelectedTimePeriod == "single-day")
@@ -370,10 +379,10 @@ private List<int> PopulateMonthValues()
                 select c.MonounsaturatedFat;
             return monoEternityAllMeals.Sum();
         }
-        return 6006135;
+        return errorReturnVal;
     }
 
-    private decimal? GetPolyFatValues()
+    public decimal? GetPolyFatValues()
     {
     // I know nesting is bad but this could be considered
         if (SelectedMeal == "All meals" & SelectedTimePeriod == "single-day")
@@ -431,10 +440,10 @@ private List<int> PopulateMonthValues()
                 select c.PolyunsaturatedFat;
             return polyEternityAllMeals.Sum();
         }
-        return 6006135;
+        return errorReturnVal;
     }
 
-    private decimal? GetTransFatValues()
+    public decimal? GetTransFatValues()
     {
     // I know nesting is bad but this could be considered
         if (SelectedMeal == "All meals" & SelectedTimePeriod == "single-day")
@@ -492,10 +501,10 @@ private List<int> PopulateMonthValues()
                 select c.TransFat;
             return transEternityAllMeals.Sum();
         }
-        return 6006135;
+        return errorReturnVal;
     }
 
-    private decimal? GetCarbValues()
+    public decimal? GetCarbValues()
     {
     // I know nesting is bad but this could be considered
         if (SelectedMeal == "All meals" & SelectedTimePeriod == "single-day")
@@ -553,10 +562,10 @@ private List<int> PopulateMonthValues()
                 select c.Carbohydrates;
             return carbsEternityAllMeals.Sum();
         }
-        return 6006135;
+        return errorReturnVal;
     }
 
-    private decimal? GetSugarValues()
+    public decimal? GetSugarValues()
     {
     // I know nesting is bad but this could be considered
         if (SelectedMeal == "All meals" & SelectedTimePeriod == "single-day")
@@ -614,10 +623,10 @@ private List<int> PopulateMonthValues()
                 select c.Sugar;
             return sugarEternityAllMeals.Sum();
         }
-        return 6006135;
+        return errorReturnVal;
     }
 
-    private decimal? GetFibreValues()
+    public decimal? GetFibreValues()
     {
     // I know nesting is bad but this could be considered
         if (SelectedMeal == "All meals" & SelectedTimePeriod == "single-day")
@@ -675,10 +684,10 @@ private List<int> PopulateMonthValues()
                 select c.Fiber;
             return fibreEternityAllMeals.Sum();
         }
-        return 6006135;
+        return errorReturnVal;
     }
 
-    private decimal? GetProteinValues()
+    public decimal? GetProteinValues()
     {
     // I know nesting is bad but this could be considered
         if (SelectedMeal == "All meals" & SelectedTimePeriod == "single-day")
@@ -736,10 +745,10 @@ private List<int> PopulateMonthValues()
                 select c.Protein;
             return proteinEternityAllMeals.Sum();
         }
-        return 6006135;
+        return errorReturnVal;
     }
 
-    private decimal? GetCholesterolValues()
+    public decimal? GetCholesterolValues()
     {
     // I know nesting is bad but this could be considered
         if (SelectedMeal == "All meals" & SelectedTimePeriod == "single-day")
@@ -797,10 +806,10 @@ private List<int> PopulateMonthValues()
                 select c.Cholesterol;
             return cholEternityAllMeals.Sum();
         }
-        return 6006135;
+        return errorReturnVal;
     }
 
-    private decimal? GetSaltValues()
+    public decimal? GetSaltValues()
     {
     // I know nesting is bad but this could be considered
         if (SelectedMeal == "All meals" & SelectedTimePeriod == "single-day")
@@ -858,10 +867,10 @@ private List<int> PopulateMonthValues()
                 select c.Sodium;
             return saltEternityAllMeals.Sum();
         }
-        return 6006135;
+        return errorReturnVal;
     }
 
-    private decimal? GetPotassiumValues()
+    public decimal? GetPotassiumValues()
     {
     // I know nesting is bad but this could be considered
         if (SelectedMeal == "All meals" & SelectedTimePeriod == "single-day")
@@ -919,10 +928,10 @@ private List<int> PopulateMonthValues()
                 select c.Potassium;
             return potEternityAllMeals.Sum();
         }
-        return 6006135;
+        return errorReturnVal;
     }
 
-    private decimal? GetVitA_Values()
+    public decimal? GetVitA_Values()
     {
     // I know nesting is bad but this could be considered
         if (SelectedMeal == "All meals" & SelectedTimePeriod == "single-day")
@@ -980,10 +989,10 @@ private List<int> PopulateMonthValues()
                 select c.VitaminA;
             return vitAEternityAllMeals.Sum();
         }
-        return 6006135;
+        return errorReturnVal;
     }
 
-    private decimal? GetVitC_Values()
+    public decimal? GetVitC_Values()
     {
     // I know nesting is bad but this could be considered
         if (SelectedMeal == "All meals" & SelectedTimePeriod == "single-day")
@@ -1041,10 +1050,10 @@ private List<int> PopulateMonthValues()
                 select c.VitaminC;
             return vitCEternityAllMeals.Sum();
         }
-        return 6006135;
+        return errorReturnVal;
     }
 
-    private decimal? GetCalciumValues()
+    public decimal? GetCalciumValues()
     {
         // I know nesting is bad but this could be considered
         if (SelectedMeal == "All meals" & SelectedTimePeriod == "single-day")
@@ -1102,10 +1111,10 @@ private List<int> PopulateMonthValues()
                 select c.Calcium;
             return calciumEternityAllMeals.Sum();
         }
-        return 6006135;
+        return errorReturnVal;
     }
 
-    private decimal? GetIronValues()
+    public decimal? GetIronValues()
     {
             // I know nesting is bad but this could be considered
         if (SelectedMeal == "All meals" & SelectedTimePeriod == "single-day")
@@ -1163,7 +1172,7 @@ private List<int> PopulateMonthValues()
                 select c.Iron;
             return ironEternityAllMeals.Sum();
         }
-        return 6006135;
+        return errorReturnVal;
     }
 
 
