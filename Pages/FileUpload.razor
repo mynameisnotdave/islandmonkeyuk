@@ -20,7 +20,7 @@
 
 <h3>Upload Files</h3>
 
-<MudFileUpload OnFilesChanged="LoadFile" Accept=".csv">
+<MudFileUpload T="IBrowserFile" OnFilesChanged="LoadFile" Accept=".csv">
     <ButtonTemplate>
         <MudButton HtmlTag="label"
                    Variant="Variant.Filled"
