@@ -27,7 +27,7 @@ public class VirusScan
         request.FormBoundary = "---011000010111000001101001";
         request.AddFile("file", path);
         RestResponse response = await client.PostAsync(request);
-        deserializedUploadResponse = JsonConvert.DeserializeObject<Root>(response.ToString());
+        deserializedUploadResponse = JsonConvert.DeserializeObject<Root>(response.Content);
     }
     public async Task<bool> IsMalicious()
     {
@@ -38,7 +38,7 @@ public class VirusScan
         request.AddHeader("accept", "application/json");
         request.AddHeader("x-apikey", virusScanApiKey);
         RestResponse? response = await client.GetAsync(request);
-        VirusScanAnalysisResponse.Root? deserializedAnalysisResponse = JsonConvert.DeserializeObject<VirusScanAnalysisResponse.Root>(response.ToString());
+        VirusScanAnalysisResponse.Root? deserializedAnalysisResponse = JsonConvert.DeserializeObject<VirusScanAnalysisResponse.Root>(response.Content);
         if (!deserializedAnalysisResponse.data.attributes.status.Equals("completed"))
         {
             response = await client.GetAsync(request);// do the request again if it is not completed
